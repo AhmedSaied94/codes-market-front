@@ -1,13 +1,18 @@
-import React from 'react';
-import { Button } from '@mui/material'
-import NavBar from './component/Navbar/Navbar/NavBar'
+import * as React from 'react';
+import 'antd/dist/antd.css';
 
-function App() {
-  return (
-    <>
-    <NavBar />
-    </>
-  );
+import { Button } from '@mui/material'
+import Navbar from './components/navbar/Navbar';
+
+
+
+const App = props => {
+
+
+    return (
+     <Navbar />
+    );
+  
 }
 
 export default App;
