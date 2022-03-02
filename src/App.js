@@ -1,16 +1,21 @@
 import * as React from 'react';
-import 'antd/dist/antd.css';
-
-import { Button } from '@mui/material'
+import 'antd/dist/antd.min.css';
+import { Layout } from 'antd';
 import Navbar from './components/navbar/Navbar';
+import Dashboard from './pages/Dashboard';
 
 
 
 const App = props => {
-
+    const { Header } = Layout;
 
     return (
-     <Navbar />
+    <Layout>
+        <Header style={{backgroundColor:'#fff'}}>
+            <Navbar />
+        </Header>
+        <Dashboard />
+    </Layout>
     );
   
 }

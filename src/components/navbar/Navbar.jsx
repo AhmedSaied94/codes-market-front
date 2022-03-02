@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Menu } from 'antd';
+import './Navbar.css'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 const Navbar = () => {
     const [current, setCurrent] = React.useState('mail')
