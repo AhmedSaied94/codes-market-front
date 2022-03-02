@@ -2,6 +2,7 @@ import React from 'react'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import Tabs from '../components/dashboard/Tabs'
 import './Dashboard.css'
+import Payments from '../components/dashboard/Payments';
 const Dashboard = (props) => {
 
     const { Content, Sider } = Layout;
@@ -25,7 +26,7 @@ const Dashboard = (props) => {
                 minHeight: 280,
             }}
             >
-            Content
+            <Payments />
             </Content>
         </Layout>
     </Layout>
