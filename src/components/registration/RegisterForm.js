@@ -6,6 +6,9 @@ const { Option } = Select;
 
 function RegisterForm() {
   const [form]=Form.useForm();
+  const submitHandler =(data)=>{
+    console.log(data)
+  }
   const residences = [
     {
       value:'egypt',
@@ -75,6 +78,7 @@ function RegisterForm() {
       residence: ['zhejiang', 'hangzhou', 'xihu'],
       prefix: '86',
     }}
+    onSubmitCapture={submitHandler}
     >
       <Form.Item 
       name="email" 
