@@ -1,0 +1,15 @@
+.form-container {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.ant-form-horizontal .ant-form-item-label {
+  text-align: left;
+}
+
+.btn-sub {
+  width: 100%;
+}
