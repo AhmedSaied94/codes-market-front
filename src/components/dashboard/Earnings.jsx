@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 
 const { Title } = Typography;
 
-const Payments = (props) => {
+const Earnings = (props) => {
 
 
     const columns = [
@@ -63,10 +63,10 @@ const Payments = (props) => {
 
   return (
     <div>
-        <Title level={3}>Last Payments</Title>
+        <Title level={3}>Earnings</Title>
         <Table columns={columns} dataSource={data} />
     </div>
   )
 }
 
-export default Payments
+export default Earnings

@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 
 const { Title } = Typography;
 
-const Payments = (props) => {
+const Withdraws = (props) => {
 
 
     const columns = [
@@ -19,9 +19,9 @@ const Payments = (props) => {
         key: 'Date',
       },
       {
-        title: 'Details',
-        dataIndex: 'Details',
-        key: 'Details',
+        title: 'Paypal',
+        dataIndex: 'paypal',
+        key: 'paypal',
       },
       {
         title: 'Amount',
@@ -63,10 +63,10 @@ const Payments = (props) => {
 
   return (
     <div>
-        <Title level={3}>Last Payments</Title>
+        <Title level={3}>Withdraws</Title>
         <Table columns={columns} dataSource={data} />
     </div>
   )
 }
 
-export default Payments
+export default Withdraws
