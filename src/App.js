@@ -3,6 +3,7 @@ import 'antd/dist/antd.min.css';
 import { Layout } from 'antd';
 import Navbar from './components/navbar/Navbar';
 import Dashboard from './pages/Dashboard';
+import RegisterForm from './components/registration/RegisterForm';
 
 
 
@@ -14,7 +15,8 @@ const App = props => {
         <Header style={{backgroundColor:'#fff'}}>
             <Navbar />
         </Header>
-        <Dashboard />
+        <RegisterForm />
+   {/* <Dashboard />*/}
     </Layout>
     );
   
