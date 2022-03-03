@@ -15,8 +15,8 @@ const App = props => {
         <Header style={{backgroundColor:'#fff'}}>
             <Navbar />
         </Header>
-        <RegisterForm />
-   {/* <Dashboard />*/}
+        {/* <RegisterForm /> */}
+        <Dashboard />
     </Layout>
     );
   
