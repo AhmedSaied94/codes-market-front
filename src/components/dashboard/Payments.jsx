@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Row, Col } from 'antd';
 import { Typography } from 'antd';
 
 const { Title } = Typography;
@@ -12,6 +12,7 @@ const Payments = (props) => {
         title: 'ID',
         dataIndex: 'ID',
         key: 'ID',
+        responsive:['sm']
       },
       {
         title: 'Date',
@@ -27,6 +28,7 @@ const Payments = (props) => {
         title: 'Amount',
         dataIndex: 'Amount',
         key: 'Amount',
+        responsive:['sm']
       },
       {
         title: 'Status',
@@ -40,11 +42,27 @@ const Payments = (props) => {
                   {Status.toUpperCase()}
                 </Tag>
               )
-        }
-
-
+        },
+        responsive:['sm']
       },
-
+      {
+        title:'A&S',
+        dataIndex:'amountstatus',
+        key:'amountstatus',
+        render: (record) => {
+          let color = record.status === 'success' ? 'green' : 'volcano'
+          return (
+            <React.Fragment>
+              {record.amount}
+              <br />
+              <Tag color={color} key={record.status}>
+                {record.status.toUpperCase()}
+              </Tag>
+            </React.Fragment>
+          )
+        },
+        responsive:['xs']
+      },
     ];
 
     const data = []
@@ -56,16 +74,23 @@ const Payments = (props) => {
         Details: 'New York No. 1 Lake Park',
         Amount:'$25',
         Status: 'success',
+        amountstatus:{
+          amount:'$25',
+          status:'success'
+        }
       })
     }
       
     
 
   return (
-    <div>
+    <Row>
+      <Col span={24}>        
         <Title level={3}>Last Payments</Title>
-        <Table columns={columns} dataSource={data} />
-    </div>
+        <Table columns={columns} dataSource={data} className='table-view'/>
+      </Col>
+
+    </Row>
   )
 }
 

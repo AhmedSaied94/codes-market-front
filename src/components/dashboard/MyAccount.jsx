@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Input, Collapse, Form, Button, Select, Checkbox, Upload, message } from 'antd'
-import { MailTwoTone, IdcardTwoTone, UserOutlined, CreditCardTwoTone, KeyOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { MailTwoTone, IdcardTwoTone, UserOutlined, ContactsTwoTone, CreditCardTwoTone, KeyOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { formatTimeStr } from 'antd/lib/statistic/utils'
 const { Panel } = Collapse
 const { Option } = Select
@@ -84,16 +84,16 @@ const MyAccount = () => {
         form={form}
     >
         <Form.Item>
-            <Input size='large' placeholder="Email" prefix={<MailTwoTone />} />
+            <Input size='large' placeholder="Email" prefix={<MailTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
         <Form.Item>
-            <Input size='large' placeholder="Full Name" prefix={<IdcardTwoTone />} />
+            <Input size='large' placeholder="Full Name" prefix={<IdcardTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
         <Form.Item>
-            <Input size='large' placeholder="User Name" prefix={<UserOutlined />} />
+            <Input size='large' placeholder="User Name" prefix={<ContactsTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
         <Form.Item>
-            <Input size='large' placeholder="Paypal Email" prefix={<CreditCardTwoTone />} />
+            <Input size='large' placeholder="Paypal Email" prefix={<CreditCardTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
         <Form.Item>
             <Button type='primary' block>Update Account</Button>
@@ -125,7 +125,7 @@ const MyAccount = () => {
                 </Select>
             </Form.Item>
             <Form.Item label='Public contact for profile: (optional for freelance work)'>
-                <Input size='large' placeholder="Email" prefix={<MailTwoTone />} />
+                <Input size='large' placeholder="Email" prefix={<MailTwoTone twoToneColor='rgb(254 91 24)' />} />
             </Form.Item>
             <Form.Item>
                 <Button type='primary' block>Update Account</Button>

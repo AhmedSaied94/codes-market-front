@@ -1,3 +1,47 @@
 .site-layout-background {
   background-color: #fff !important;
 }
+
+.ant-input:hover {
+  border-color: rgb(254 91 24) !important;
+}
+
+.ant-input:focus {
+  border-color: rgb(254 91 24) !important;
+}
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: rgb(254 91 24);
+  border-right-width: 1px !important;
+  z-index: 1;
+}
+
+.ant-input-affix-wrapper-focused,
+.ant-input-affix-wrapper:focus {
+  border-color: rgb(254 91 24);
+  box-shadow: 0 0 0 2px rgb(254 91 24 / 25%);
+  border-right-width: 1px !important;
+  outline: 0;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  border-color: rgb(254 91 24);
+  background: rgb(254 91 24);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+
+.ant-btn-primary:focus,
+.ant-btn-primary:hover {
+  color: #fff;
+  border-color: rgb(255, 96, 33);
+  background: rgb(255, 96, 33);
+}
+
+.ant-btn-dashed {
+  color: rgb(254 91 24);
+  border-color: rgb(254 91 24);
+  background: #fff;
+  border-style: dashed;
+}

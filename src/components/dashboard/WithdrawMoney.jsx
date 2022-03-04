@@ -19,7 +19,7 @@ const WithdrawMoney = (props) => {
         key: 'totalwithdraws',
       },
       {
-        title: 'Available Credit',
+        title: 'Credit',
         dataIndex: 'availablecredit',
         key: 'availablecredit',
       },

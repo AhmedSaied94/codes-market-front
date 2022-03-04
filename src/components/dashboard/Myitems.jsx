@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Typography, Button, Menu } from 'antd';
+import { Table, Typography, Button, Menu, Tag } from 'antd';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 
 
@@ -14,9 +14,10 @@ const Myitems = (props) => {
       };
     const columns = [
         {
-            title: 'Logo',
-            dataIndex: 'logo',
-            key: 'logo',
+          title: 'Logo',
+          dataIndex: 'logo',
+          key: 'logo',
+          responsive:['sm']
         },
         {
             title: 'Name',
@@ -29,28 +30,53 @@ const Myitems = (props) => {
             key: 'price',
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
+          title: 'Status',
+          dataIndex: 'status',
+          key: 'status',
+          responsive:['sm']
         },
         {
-            title: 'Sales',
-            dataIndex: 'sales',
-            key: 'sales',
+          title: 'Sales',
+          dataIndex: 'sales',
+          key: 'sales',
+          responsive:['sm']
         },
         {
-            title: 'Action',
-            dataIndex: 'action',
-            key: 'action',
-            render: (id) => {
-                return (
-                <div style={{display:'flex', justifyContent:'space-around'}}>
-                        <Button type="primary" shape="circle">A</Button>
-                        <Button type="primary" danger shape="circle">B</Button>
-                        <Button type="dashed" shape="circle">C</Button>
+          title: 'Action',
+          dataIndex: 'action',
+          key: 'action',
+          render: (id) => {
+              return (
+              <div style={{display:'flex', justifyContent:'space-around'}}>
+                      <Button type="primary" shape="circle">A</Button>
+                      <Button type="primary" danger shape="circle">B</Button>
+                      <Button type="dashed" shape="circle">C</Button>
+              </div>
+              )
+          },
+          responsive:['sm']
+        },
+        {
+          title:'A&S',
+          dataIndex:'actionstatus',
+          key:'actionstatus',
+          render: (record) => {
+            let color = record.status === 'success' ? 'green' : 'volcano'
+            return (
+              <React.Fragment>
+                <Tag color={color} key={record.status}>
+                  {record.status.toUpperCase()}
+                </Tag>
+                <br />
+                <div style={{display:'flex', justifyContent:'space-around', marginTop:'0.25rem'}}>
+                      <Button type="primary" shape="circle">A</Button>
+                      <Button type="primary" danger shape="circle">B</Button>
+                      <Button type="dashed" shape="circle">C</Button>
                 </div>
-                )
-            }
+              </React.Fragment>
+            )
+          },
+          responsive:['xs']
         },
     ]
     const data = []
@@ -62,7 +88,11 @@ const Myitems = (props) => {
             price: '$25',
             status: 'approved',
             sales: 5,
-            action: index
+            action: index,
+            actionstatus:{
+              amount:index,
+              status:'success'
+            }
         })
         
     }

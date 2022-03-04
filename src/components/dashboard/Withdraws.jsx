@@ -12,6 +12,7 @@ const Withdraws = (props) => {
         title: 'ID',
         dataIndex: 'ID',
         key: 'ID',
+        responsive:['sm']
       },
       {
         title: 'Date',
@@ -27,6 +28,7 @@ const Withdraws = (props) => {
         title: 'Amount',
         dataIndex: 'Amount',
         key: 'Amount',
+        responsive:['sm']
       },
       {
         title: 'Status',
@@ -40,9 +42,26 @@ const Withdraws = (props) => {
                   {Status.toUpperCase()}
                 </Tag>
               )
-        }
-
-
+        },
+        responsive:['sm']
+      },
+      {
+        title:'A&S',
+        dataIndex:'amountstatus',
+        key:'amountstatus',
+        render: (record) => {
+          let color = record.status === 'success' ? 'green' : 'volcano'
+          return (
+            <React.Fragment>
+              {record.amount}
+              <br />
+              <Tag color={color} key={record.status}>
+                {record.status.toUpperCase()}
+              </Tag>
+            </React.Fragment>
+          )
+        },
+        responsive:['xs']
       },
 
     ];
@@ -56,6 +75,10 @@ const Withdraws = (props) => {
         Details: 'New York No. 1 Lake Park',
         Amount:'$25',
         Status: 'success',
+        amountstatus:{
+          amount:'$25',
+          status:'success'
+        }
       })
     }
       

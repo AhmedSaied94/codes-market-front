@@ -3,6 +3,7 @@ import { Card, Avatar } from 'antd';
 import './Tabs.css'
 import { Menu } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom' 
 
 
 const Tabs = (props) => {
@@ -30,19 +31,56 @@ const Tabs = (props) => {
         mode="inline"
         className='tab-menu'
         >
-            <Menu.Item className='tab-item' key="1">Dashboard</Menu.Item>
-            <Menu.Item className='tab-item' key="2">My Account</Menu.Item>
+            <Menu.Item className='tab-item' key="dashboard">
+              <Link to=''>
+                Dashboard
+              </Link>
+            </Menu.Item>
+            <Menu.Item className='tab-item' key="myaccount">
+              <Link to='myaccount'>
+                My Account
+              </Link>
+            </Menu.Item>
             <SubMenu className='sub-tab' key="transactions" icon={<AppstoreOutlined />} title="Transactions">
-                <Menu.Item className='tab-item' key="3">Payments</Menu.Item>
-                <Menu.Item className='tab-item' key="4">Earnings</Menu.Item>
-                <Menu.Item className='tab-item' key="5">Withdraws</Menu.Item>
+                <Menu.Item className='tab-item' key="payments">
+                  <Link to='payments'>
+                    Payments
+                  </Link>
+                </Menu.Item>
+                <Menu.Item className='tab-item' key="earnings">
+                  <Link to='earnings'>
+                    Earnings
+                  </Link>
+                </Menu.Item>
+                <Menu.Item className='tab-item' key="withdraws">
+                  <Link to='withdraws'>
+                    Withdraws
+                  </Link>
+                </Menu.Item>
+                <Menu.Item className='tab-item' key="withdraw-money">
+                  <Link to='withdraw-money'>
+                    Withdraw Money
+                  </Link>
+                </Menu.Item>
             </SubMenu>
             <SubMenu className='sub-tab' key="items" icon={<SettingOutlined />} title="Items">
-                <Menu.Item className='tab-item' key="6">My Items</Menu.Item>
-                <Menu.Item className='tab-item' key="7">Downloads</Menu.Item>
+                <Menu.Item className='tab-item' key="myitems">
+                  <Link to='myitems'>
+                    My Items
+                  </Link>
+                </Menu.Item>
+                <Menu.Item className='tab-item' key="downloads">
+                  <Link to='downloads'>
+                    Downloads
+                  </Link>
+                </Menu.Item>
             </SubMenu>
-            <Menu.Item className='tab-item' key="8">Wishlist</Menu.Item>
-      </Menu>
+            <Menu.Item className='tab-item' key="wishlist">
+                  <Link to='wishlist'>
+                    Wishlist
+                  </Link>
+            </Menu.Item>      
+        </Menu>
     </div>
   )
 }

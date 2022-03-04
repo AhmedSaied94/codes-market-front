@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { Menu } from 'antd';
+import { Menu, Button, Tag } from 'antd';
 import './Navbar.css'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom'
 const Navbar = () => {
     const [current, setCurrent] = React.useState('mail')
     const { SubMenu } = Menu;
@@ -12,27 +13,63 @@ const Navbar = () => {
   
       return (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-          <Menu.Item key="mail" icon={<MailOutlined />}>
-            Navigation One
+            <Menu.Item key="home" icon={<MailOutlined />}>
+            <Link className='link' to='/'>
+              Home
+              </Link>
+            </Menu.Item>
+          
+          <Menu.Item key="catalog" icon={<AppstoreOutlined />}>
+          <Link to='/catalog'>
+            Catalog
+          </Link>
           </Menu.Item>
-          <Menu.Item key="app" disabled icon={<AppstoreOutlined />}>
-            Navigation Two
+
+          <Menu.Item key="dashboard" icon={<AppstoreOutlined />}>
+          <Link to='/dashboard'>
+            Dashboard
+          </Link>
           </Menu.Item>
-          <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Navigation Three - Submenu">
-            <Menu.ItemGroup title="Item 1">
-              <Menu.Item key="setting:1">Option 1</Menu.Item>
-              <Menu.Item key="setting:2">Option 2</Menu.Item>
-            </Menu.ItemGroup>
-            <Menu.ItemGroup title="Item 2">
-              <Menu.Item key="setting:3">Option 3</Menu.Item>
-              <Menu.Item key="setting:4">Option 4</Menu.Item>
-            </Menu.ItemGroup>
+
+          <Menu.Item key="upload" icon={<AppstoreOutlined />}>
+          <Link to='/upload'>
+            Upload
+          </Link>
+          </Menu.Item>
+
+          <Menu.Item style={{marginLeft:'auto'}} key="signup" className='nav-btn'>
+          <Link to='/signup'>
+            <Button type='primary'>Sign up</Button>
+          </Link>
+          </Menu.Item>
+
+
+          <Menu.Item key="login" className='nav-btn'>
+          <Link to='/login'>
+            <Button type='dashed'>Log in</Button>
+          </Link>
+          </Menu.Item>
+
+          <SubMenu key="SubMenu" icon={<Tag color='success'>$52</Tag>} title="Hi User">
+          <Menu.Item key="sub-dashboard" icon={<AppstoreOutlined />}>
+            <Link to='/dashboard'>
+              Dashboard
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="sellitem" icon={<AppstoreOutlined />}>
+            <Link to='/upload'>
+              Sell Item
+            </Link>
+          </Menu.Item>
+
+            <Menu.Item key="signout" icon={<AppstoreOutlined />}>
+              <Link to='/signout'>
+                Sign Out
+              </Link>
+            </Menu.Item>
           </SubMenu>
-          <Menu.Item key="alipay">
-            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-              Navigation Four - Link
-            </a>
-          </Menu.Item>
+
         </Menu>
       );
 }

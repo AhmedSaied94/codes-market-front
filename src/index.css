@@ -1,0 +1,22 @@
+.main-content {
+  padding: 1.5rem 8rem;
+}
+
+.dash-content {
+  padding: 1.5rem 0 0 1.5rem;
+}
+
+@media (max-width: 1300px) {
+  .main-content {
+    padding: 1.5rem 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+  .dash-content {
+    padding: 1.5rem 0 0 0.5rem;
+  }
+}
