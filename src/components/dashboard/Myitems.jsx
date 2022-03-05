@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { Table, Typography, Button, Menu, Tag } from 'antd';
+import { Link, Routes, Route } from 'react-router-dom'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import UploadItem from './Upload';
+
 
 
 const { Title } = Typography;
@@ -97,11 +100,13 @@ const Myitems = (props) => {
         
     }
   return (
-    <div>{
-            props.view === 'myitems'?
+    <div>
             <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{marginBottom:'1.5rem'}}>
             <Menu.Item key="all" icon={<MailOutlined />}>
+              <Link to=''>
               All items
+
+              </Link>
             </Menu.Item>
             <Menu.Item key="approved"  icon={<AppstoreOutlined />}>
               Approved 
@@ -113,15 +118,20 @@ const Myitems = (props) => {
               Rejected 
             </Menu.Item>
             <Menu.Item key="add" icon={<AppstoreOutlined />}>
-              Add item
+              <Link to='upload' >
+                Add item
+              </Link>
             </Menu.Item>
           </Menu>
-            :
-        <Title level={3}> My Items</Title>
+        
+        <Routes>
+          <Route path='/' element={<>
+            <Title level={3}> My Items</Title>
+            <Table columns={columns} dataSource={data} />
+          </>} />
+          <Route path='/upload' element={<UploadItem />} />
+        </Routes>
 
-        }
-
-        <Table columns={columns} dataSource={data} />
     </div>
   )
 }

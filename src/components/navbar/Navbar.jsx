@@ -32,7 +32,7 @@ const Navbar = () => {
           </Menu.Item>
 
           <Menu.Item key="upload" icon={<AppstoreOutlined />}>
-          <Link to='/upload'>
+          <Link to='/dashboard/upload'>
             Upload
           </Link>
           </Menu.Item>

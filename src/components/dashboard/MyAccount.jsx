@@ -33,21 +33,18 @@ const MyAccount = () => {
         if (!isLt1M) {
           message.error('Image must smaller than 1MB!');
         }
-        return isJpgOrPng && isLt1M;
+        return false
     }
 
     const handleUpload = info => {
-        if (info.file.status === 'uploading') {
-          setLoading(true);
-          return;
-        }
-        if (info.file.status === 'done') {
+        console.log(info)
+
           // Get this url from response in real world.
-          getBase64(info.file.originFileObj, imageUrl => {
+          getBase64(info.file, imageUrl => {
             setImgUrl(imageUrl)
             setLoading(false)
             });
-        }
+        
       };
     ////   Upload avatar   ////
 
@@ -158,7 +155,6 @@ const MyAccount = () => {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://run.mocky.io/v3/ad8fbbe9-ee91-4f32-adcf-81e26dd50c1b"
             beforeUpload={beforeUpload}
             onChange={handleUpload}
         >

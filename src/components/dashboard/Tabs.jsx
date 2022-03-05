@@ -4,12 +4,12 @@ import './Tabs.css'
 import { Menu } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom' 
+const { SubMenu } = Menu
 
 
 const Tabs = (props) => {
     const { Meta } = Card;
     const [loading, setLoading] = React.useState(false)
-    const { SubMenu } = Menu
     const handleClick = e => {
         console.log('click ', e);
       };

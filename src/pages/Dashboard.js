@@ -60,7 +60,7 @@ const Dashboard = (props) => {
                                 {/* <Route path='/' element={<DashboardCom />} /> */}
                                 <Route path='/payments' element={<Payments />} />
                                 <Route path='/earnings' element={<Earnings />} />
-                                <Route path='/myitems' element={<Myitems />} />
+                                <Route path='/myitems/*' element={<Myitems view='myitems' />} />
                                 <Route path='/myaccount' element={<MyAccount />} />
                                 <Route path='/withdraws' element={<Withdraws />} />
                                 <Route path='/withdraw-money' element={<WithdrawMoney />} />

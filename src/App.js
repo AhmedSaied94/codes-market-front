@@ -5,7 +5,9 @@ import Navbar from './components/navbar/Navbar';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import RegisterForm from './components/registration/RegisterForm';
+import Catalog from './pages/Catalog';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
 
 
 
@@ -26,8 +28,8 @@ const App = props => {
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/dashboard/*' element={<Dashboard />} />
+            <Route path='/catalog' element={<Catalog />} />
             <Route path='/signup' element={<RegisterForm />} />
-
         </Routes>
         {/* <RegisterForm />
         <Dashboard /> */}
