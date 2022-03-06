@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import RegisterForm from './components/registration/RegisterForm';
 import Catalog from './pages/Catalog';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import ItemPage from './pages/ItemPage';
 
 
 
@@ -30,6 +31,7 @@ const App = props => {
             <Route path='/dashboard/*' element={<Dashboard />} />
             <Route path='/catalog' element={<Catalog />} />
             <Route path='/signup' element={<RegisterForm />} />
+            <Route path='/item' element={<ItemPage />} />
         </Routes>
         {/* <RegisterForm />
         <Dashboard /> */}

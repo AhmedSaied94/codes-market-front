@@ -32,7 +32,7 @@ const Navbar = () => {
           </Menu.Item>
 
           <Menu.Item key="upload" icon={<AppstoreOutlined />}>
-          <Link to='/dashboard/upload'>
+          <Link to='/dashboard/myitems/upload'>
             Upload
           </Link>
           </Menu.Item>
@@ -58,13 +58,13 @@ const Navbar = () => {
           </Menu.Item>
 
           <Menu.Item key="sellitem" icon={<AppstoreOutlined />}>
-            <Link to='/upload'>
+            <Link to='/dashboard/myitems/upload'>
               Sell Item
             </Link>
           </Menu.Item>
 
             <Menu.Item key="signout" icon={<AppstoreOutlined />}>
-              <Link to='/signout'>
+              <Link to='/item'>
                 Sign Out
               </Link>
             </Menu.Item>

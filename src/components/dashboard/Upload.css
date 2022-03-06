@@ -29,9 +29,9 @@
   color: rgb(254 91 24);
 }
 
-.ant-btn:focus,
-.ant-btn:hover {
-  border-color: rgb(254 91 24);
+.ant-btn-dashed:focus,
+.ant-btn-dashed:hover {
+  border: none;
   color: rgb(254 91 24);
 }
 

@@ -260,7 +260,7 @@ const UploadItem = (props) => {
             </Button>
         )}
         {current > 0 && (
-            <Button style={{ margin: '0 8px' }} onClick={() => handleSteps('prev')}>
+            <Button type='dashed' style={{ margin: '0 8px' }} onClick={() => handleSteps('prev')}>
             Previous
             </Button>
         )}

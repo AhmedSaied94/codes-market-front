@@ -9,7 +9,7 @@ const Catalog = (props) => {
         <Sider 
             width={300} 
             className="site-layout-background" 
-            style={{height:'90vh', marginTop:'1.5rem'}}
+            style={{height:'90vh', marginTop:'1.5rem', paddingTop:'1rem'}}
             breakpoint="lg"
             collapsedWidth="0"
         >
