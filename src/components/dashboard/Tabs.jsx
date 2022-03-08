@@ -4,22 +4,28 @@ import './Tabs.css'
 import { Menu } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom' 
+import { UserContext } from '../../App';
 const { SubMenu } = Menu
+const { Meta } = Card;
 
 
 const Tabs = (props) => {
-    const { Meta } = Card;
-    const [loading, setLoading] = React.useState(false)
+    const { authedUser, host } = React.useContext(UserContext)
+    const loading = authedUser ? false : true
+
+
     const handleClick = e => {
         console.log('click ', e);
       };
   return (
+    <>
+    {authedUser &&
     <div className='aside'>
         <Card style={{ width: 300 }} loading={loading}>
           <Meta
-            avatar={<Avatar size={64} src="https://picsum.photos/200/300" />}
-            title="Hi User"
-            description="Joined 2022/03/01"
+            avatar={<Avatar size={64} src={`${host}${authedUser.profile_pic}`} />}
+            title={`Hi ${authedUser.username}`}
+            description={`Joined ${authedUser.join_date.substring(0, 10)}`}
             className='card'
           />
         </Card>
@@ -82,6 +88,8 @@ const Tabs = (props) => {
             </Menu.Item>      
         </Menu>
     </div>
+    }
+    </>
   )
 }
 

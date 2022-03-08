@@ -14,20 +14,20 @@ const Home = () => {
     <Content className='main-content'>
         <Row gutter={16}>
         <Col span={24}><Title level={4}>New Items</Title></Col>
-            {arr.map(i => {
+            {arr.map((i, n) => {
                 return (
-                    <Col xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
-                        <ItemCard />
+                    <Col key={n} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                        <ItemCard id={n} />
                     </Col>
                 )
             })}
         </Row>
         <Row gutter={16}>
             <Col span={24}><Title level={4}>Top Selling</Title></Col>
-            {arr.map(i => {
+            {arr.map((i, n) => {
                 return (
-                    <Col xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
-                        <ItemCard />
+                    <Col key={n} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                        <ItemCard id={n} />
                     </Col>
                 )
             })}

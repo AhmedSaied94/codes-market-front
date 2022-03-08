@@ -2,13 +2,100 @@ import * as React from 'react'
 import { Input, Collapse, Form, Button, Select, Checkbox, Upload, message } from 'antd'
 import { MailTwoTone, IdcardTwoTone, UserOutlined, ContactsTwoTone, CreditCardTwoTone, KeyOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { formatTimeStr } from 'antd/lib/statistic/utils'
+import { UserContext } from '../../App'
+import { axiosFetchInstance, handleUnauthorized } from '../../Axios'
 const { Panel } = Collapse
 const { Option } = Select
 
-const MyAccount = () => {
+const MyAccount = (props) => {
     const [form] = Form.useForm()
+    const { authedUser, host } = React.useContext(UserContext)
+    const [defaultFw, setDefaultFw] = React.useState([])
+    const [defaultOs, setDefaultOs] = React.useState([])
 
+    // const [email, setEmail] = React.useState('')
+    // const [username, setUsername] = React.useState('')
+    // const [name, setName] = React.useState('')
+    // const [devType, setDevType] = React.useState('')
+    // const [operationSystems, setOperationSystems] = React.useState([])
+    // const [frameworks, setFrameworks] = React.useState([])
+    // const [devExp, setDevExp] = React.useState('')
+    // const [publicEmail, setPublicEmail] = React.useState('')
 
+    React.useMemo(() => {
+        axiosFetchInstance('/account/options/')
+        .then(res => {
+            setDefaultFw(res.data.frameworks)
+            setDefaultOs(res.data.operation_systems)
+        })
+        .catch(error => handleUnauthorized(error))
+    }, [])
+
+    React.useEffect(() => {
+        authedUser && setImgUrl(`${host}${authedUser.profile_pic}`)
+    }, [authedUser, host])
+
+    const submitMyAccount = values => {
+        const data = JSON.stringify({
+            email:values.email,
+            username:values.username,
+            fullname:values.fullname,
+        })
+        axiosFetchInstance.put('/account/update-profile/', data)
+        .then(res => {
+            message.success(res.data.success)
+        })
+        .catch(error => {
+            if (error.response.status === 401) handleUnauthorized(error)
+            else {
+                for (const key in error.response.data) {
+                    message.error(error.response.data[key][0].substring(2, error.response.data[key][0].length-2))
+                }
+            }
+            form.resetFields()
+        })
+    }
+    const submitDevDetails = values => {
+        const data = JSON.stringify({
+            devtype:values.devtype,
+            dev_exp:values.dev_exp,
+            frameworks:values.frameworks,
+            operation_systems:values.operation_systems,
+            public_email:values.public_email,
+        })
+        axiosFetchInstance.put('/account/update-profile/', data)
+        .then(res => {
+            message.success(res.data.success)
+        })
+        .catch(error => {
+            if (error.response.status === 401) handleUnauthorized(error)
+            else {
+                for (const key in error.response.data) {
+                    message.error(error.response.data[key][0].substring(2, error.response.data[key][0].length-2))
+                }
+            }
+            form.resetFields()
+        })
+    }
+    const submitPassword = values => {
+        const data = JSON.stringify({
+            old_password:values.old_password,
+            new_password:values.new_password
+        })
+        axiosFetchInstance.put('/account/update-password/', data)
+        .then(res => {
+            message.success(res.data.success)
+            form.resetFields()
+        })
+        .catch(error => {
+            if (error.response.status === 401) handleUnauthorized(error)
+            else{
+                for (const key in error.response.data) {
+                    message.error(error.response.data[key][0].substring(2, error.response.data[key][0].length-2))
+                }
+            }
+        })
+    }
     ////   Upload avatar   ////
     const [loading, setLoading] = React.useState(false)
     const [imgUrl, setImgUrl] = React.useState('')
@@ -37,95 +124,143 @@ const MyAccount = () => {
     }
 
     const handleUpload = info => {
-        console.log(info)
-
           // Get this url from response in real world.
-          getBase64(info.file, imageUrl => {
-            setImgUrl(imageUrl)
-            setLoading(false)
-            });
+        getBase64(info.file, imageUrl => {
+        setImgUrl(imageUrl)
+        setLoading(false)
+        });
+        const data = new FormData()
+        data.append('profile_pic', info.file, info.file.name)
+        axiosFetchInstance.put('/account/update-profile/', data)
+        .then(res => {
+            message.success(res.data.success)
+        })
+        .catch(error => {
+            if (error.response.status === 401) handleUnauthorized(error)
+            else {
+                for (const key in error.response.data) {
+                    message.error(error.response.data[key][0].substring(2, error.response.data[key][0].length-2))
+                }
+            }
+        })
         
-      };
+    };
     ////   Upload avatar   ////
 
     // check boxes
-    const handleOs = values => {
-        console.log(values)
-    }
-    const handleFW = values => {
-        console.log(values)
-    }
-    const options = [
-        { label: 'Apple', value: 'Apple' },
-        { label: 'Pear', value: 'Pear' },
-        { label: 'Orange', value: 'Orange' },
-    ];
+
+    const fwOptions = defaultFw.map(i => {
+        return {label:i.name, value:i.id}
+    })
+
+    const osOptions = defaultOs.map(i => {
+        return {label:i.name, value:i.id}
+    })
     // check boxes / /
 
-    // select options
-    const handleChange = value => {
-        console.log(value)
-    }
-    //select options
+
 
     // collapse
     const callback = e => {
-        console.log(e.key)
     }
     // collapse
-  return (
+    return (
+    <>
+    {authedUser &&
     <Collapse defaultActiveKey={['1']} accordion expandIconPosition='right' onChange={callback}>
     <Panel header="My Account" key="1">
     <Form
         layout='vertical'
+        initialValues={{
+            email:authedUser.email,
+            fullname:authedUser.fullname,
+            username:authedUser.username
+        }}
         form={form}
+        onFinish={submitMyAccount}
     >
-        <Form.Item>
-            <Input size='large' placeholder="Email" prefix={<MailTwoTone twoToneColor='rgb(254 91 24)' />} />
+        <Form.Item
+            name="email" 
+            rules={[
+            {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+            },
+            {
+                required: true,
+                message: 'Please input your E-mail!',
+            },
+            ]}>
+            <Input size='large'  placeholder="Email" prefix={<MailTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
-        <Form.Item>
-            <Input size='large' placeholder="Full Name" prefix={<IdcardTwoTone twoToneColor='rgb(254 91 24)' />} />
+        <Form.Item
+        name="fullname" 
+        rules={[
+          { required: true,
+            message: 'Please input your Name!' }
+          ]}>
+            <Input size='large'  placeholder="Full Name" prefix={<IdcardTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
-        <Form.Item>
-            <Input size='large' placeholder="User Name" prefix={<ContactsTwoTone twoToneColor='rgb(254 91 24)' />} />
+        <Form.Item
+        name="username" 
+        rules={[
+          { required: true,
+            message: 'Please input your user name!', 
+            whitespace: true }]}
+        >
+            <Input size='large'  placeholder="User Name" prefix={<ContactsTwoTone twoToneColor='rgb(254 91 24)' />} />
         </Form.Item>
-        <Form.Item>
+        {/* <Form.Item>
             <Input size='large' placeholder="Paypal Email" prefix={<CreditCardTwoTone twoToneColor='rgb(254 91 24)' />} />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item>
-            <Button type='primary' block>Update Account</Button>
+            <Button type='primary' htmlType='submit' block>Update Account</Button>
         </Form.Item>
     </Form>
 
     </Panel>
     <Panel header="Developer Details" key="2">
-      <Form         
+      <Form
+        initialValues={{
+            devtype:authedUser.devtype,
+            dev_exp:authedUser.dev_exp,
+            public_email:authedUser.public_email,
+            frameworks:[]=authedUser.frameworks.map(i => i.id),
+            operation_systems:[]=authedUser.operation_systems.map(i => i.id)
+        }}         
         layout='vertical'
-        form={form}>
-            <Form.Item label='Developer Type'>
-                <Select defaultValue="Indbendent Developer" style={{ width: '100%' }} onChange={handleChange}>
+        form={form}
+        onFinish={submitDevDetails}>
+            <Form.Item label='Developer Type'
+            name='devtype'>
+                <Select style={{ width: '100%' }}>
                     <Option value="Indbendent Developer">Indbendent Developer</Option>
                     <Option value="Development Agency">Development Agency</Option>
                 </Select>
             </Form.Item>
-            <Form.Item label='Operation System'>
-                <Checkbox.Group options={options} defaultValue={['Apple']} onChange={handleOs} />
+            <Form.Item
+             name='operation_systems'
+             label='Operation System'>
+                <Checkbox.Group options={osOptions}/>
             </Form.Item>
-            <Form.Item label='Frameworks'>
-                <Checkbox.Group options={options} defaultValue={['Apple']} onChange={handleFW} />
+            <Form.Item label='Frameworks'
+            name='frameworks'>
+                <Checkbox.Group options={fwOptions}/>
             </Form.Item>
-            <Form.Item label='Developer Experience'>
-                <Select defaultValue="1-3 years" style={{ width: '100%' }} onChange={handleChange}>
+            <Form.Item label='Developer Experience'
+            name='dev_exp'>
+                <Select style={{ width: '100%' }}>
                     <Option value="1-3 years">1-3 years</Option>
                     <Option value="2-5 years">2-5 years</Option>
                     <Option value="more than 5 years">more than 5 years</Option>
                 </Select>
             </Form.Item>
-            <Form.Item label='Public contact for profile: (optional for freelance work)'>
-                <Input size='large' placeholder="Email" prefix={<MailTwoTone twoToneColor='rgb(254 91 24)' />} />
+            <Form.Item label='Public contact for profile: (optional for freelance work)'
+            name='public_email'>
+                <Input size='large'  placeholder="Email" prefix={<MailTwoTone twoToneColor='rgb(254 91 24)' />} />
             </Form.Item>
             <Form.Item>
-                <Button type='primary' block>Update Account</Button>
+                <Button type='primary' htmlType='submit' block>Update Account</Button>
             </Form.Item>
         </Form>
     </Panel>
@@ -133,18 +268,51 @@ const MyAccount = () => {
         <Form
             layout='vertical'
             form={form}
+            onFinish={submitPassword}
         >
-            <Form.Item>
+            <Form.Item
+            name="old_password" 
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+            hasFeedback >
                 <Input.Password size='large' placeholder="Old Password" prefix={<KeyOutlined />} />
             </Form.Item>
-            <Form.Item>
+            <Form.Item
+            name="new_password" 
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+            hasFeedback >
                 <Input.Password size='large' placeholder="New Password" prefix={<KeyOutlined />} />
             </Form.Item>
-            <Form.Item>
+            <Form.Item
+            name="re-password"
+            dependencies={["new_password"]}
+           hasFeedback
+           rules={[
+             {
+               required: true,
+               message: 'Please confirm your password!',
+             },({ getFieldValue }) => ({
+               validator(_, value) {
+                 if (!value || getFieldValue('new_password') === value) {
+                   return Promise.resolve();
+                 }
+                 return Promise.reject(new Error('The two passwords that you entered do not match!'));
+               },
+             }),
+           ]}>
                 <Input.Password size='large' placeholder="Re-password" prefix={<KeyOutlined />} />
             </Form.Item>
             <Form.Item>
-                <Button type='primary' block>Change Password</Button>
+                <Button type='primary' htmlType='submit' block>Change Password</Button>
             </Form.Item>
         </Form>
     </Panel>
@@ -160,8 +328,12 @@ const MyAccount = () => {
         >
             {imgUrl !== '' ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
         </Upload>
+        <Button type='primary' block>Update Avatar</Button>
     </Panel>
   </Collapse>
+  }
+  </>
+    
   )
 }
 

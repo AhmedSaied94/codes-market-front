@@ -10,39 +10,42 @@ import WithdrawMoney from '../components/dashboard/WithdrawMoney';
 import Wishlist from '../components/dashboard/Wishlist';
 import MyAccount from '../components/dashboard/MyAccount';
 import { Route, Routes, Link } from 'react-router-dom';
+import { UserContext } from '../App';
 const { Title } = Typography;
+const { Content, Sider } = Layout;
 
 const Dashboard = (props) => {
-
-    const { Content, Sider } = Layout;
+    const { authedUser } = React.useContext(UserContext)
 
   return (
         <Layout className='main-content'>
             <Content>
+            {authedUser &&
                 <div className="site-card-wrapper">
                     <Row gutter={[16, 16]}>
                     <Col xs={24} sm={12} md={6}>
                         <Card hoverable title="Credit" bordered={false}>
-                            <Title level={5}>Content</Title>
+                            <Title level={5}>{authedUser.credit}</Title>
                         </Card>
                     </Col>
                     <Col xs={24} sm={12} md={6}>
                         <Card hoverable title="Wishlist" bordered={false}>
-                            <Title level={5}>Content</Title>
+                            <Title level={5}>{authedUser.wishlist_items ? authedUser.wishlist_items.length : 0}</Title>
                         </Card>
                     </Col>
                     <Col xs={24} sm={12} md={6}>
                         <Card hoverable title="My Purchases" bordered={false}>
-                            <Title level={5}>Content</Title>
+                            <Title level={5}>{authedUser.payments.length}</Title>
                         </Card>
                     </Col>
                     <Col xs={24} sm={12} md={6}>
                         <Card hoverable title="My sales" bordered={false}>
-                            <Title level={5}>Content</Title>
+                            <Title level={5}>{authedUser.earnings.length}</Title>
                         </Card>
                     </Col>
                     </Row>
                 </div>
+            }
             
             <Layout style={{marginTop:'1rem'}}>
                 <Sider 

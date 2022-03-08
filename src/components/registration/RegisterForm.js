@@ -1,29 +1,13 @@
 import React from 'react';
 import './RegisterForm.css';
-import { Form, Input, Button, Checkbox ,Select,Cascader} from 'antd';
-const { Option } = Select;
+import { Form, Input, Button, Checkbox, Layout, message, Alert} from 'antd';
+import { axiosInstance } from '../../Axios'
 
-
-
+const { Content } = Layout
 function RegisterForm() {
   const [form]=Form.useForm();
-  const submitHandler =(data)=>{
-    console.log(data)
-  }
-  const residences = [
-    {
-      value:'egypt',
-      label:'Egypt'
-    },
-    {
-      value:'india',
-      label:'India'
-    },
-    {
-      value:'usa',
-      label:'USA'
-    },
-  ];
+  const [errors, setErrors] = React.useState([])
+
   const formItemLayout = {
     labelCol:{
       xs:{
@@ -56,18 +40,38 @@ function RegisterForm() {
       }
     }
   }
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="20">+20</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
+
   const onFinish =(values)=>{
-    console.log('Received values of form: ', values);
+
+    const user = JSON.stringify({
+      email:values.email,
+      username:values.username,
+      fullname:values.fullname,
+      password:values.password
+    })
+    axiosInstance.post('/account/signup/', user)
+    .then(res => {
+      console.log(res.data)
+      if (res.data.access_token) {
+        localStorage.setItem('foxCodes_accessToken', res.data.access_token)
+        localStorage.setItem('foxCodes_refreshToken', res.data.refresh_token)
+        window.location.href = '/'
+      }
+      else {
+        // window.location.href = '/login'
+        console.log(res.data)
+      }
+    })
+    .catch(error => {
+      setErrors([])
+      for (const key in error.response.data) {
+        setErrors([...errors, `${key}: ${error.response.data[key][0]}`])
+        
+      }
+    })
   }
   return (
+    <Content style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
     <div className='form-container'>
     <Form 
     {...formItemLayout} 
@@ -76,12 +80,11 @@ function RegisterForm() {
     onFinish={onFinish} 
     style={{backgroundColor:'#fff', padding:'3rem'}}
     scrollToFirstError
-    initialValues={{
-      residence: ['zhejiang', 'hangzhou', 'xihu'],
-      prefix: '86',
-    }}
-    onSubmitCapture={submitHandler}
     >
+        {errors &&
+        errors.map((err, n) => {
+          return <Alert key={n} style={{margin:'0.5rem 0'}} message={err}type="error" />
+        })}
       <Form.Item 
       name="email" 
       label="E-mail" 
@@ -96,7 +99,7 @@ function RegisterForm() {
         },
       ]}
       >
-        <Input/>
+        <Input required/>
       </Form.Item>
       <Form.Item 
       name="password" 
@@ -108,7 +111,7 @@ function RegisterForm() {
         },
       ]}
       hasFeedback >
-        <Input.Password/>
+        <Input.Password required/>
       </Form.Item>
       <Form.Item
        name="re-password" label="Re-password" 
@@ -129,7 +132,7 @@ function RegisterForm() {
         }),
       ]}
       >
-        <Input.Password/>
+        <Input.Password required/>
       </Form.Item>
       <Form.Item 
       name="username" 
@@ -139,7 +142,7 @@ function RegisterForm() {
           message: 'Please input your user name!', 
           whitespace: true }]}
       >
-        <Input/>
+        <Input required/>
       </Form.Item>
       
       <Form.Item 
@@ -150,7 +153,7 @@ function RegisterForm() {
           message: 'Please input your Name!' }
         ]}
         >
-          <Input/>
+          <Input required/>
       </Form.Item>
       <div>
         <Form.Item 
@@ -171,6 +174,7 @@ function RegisterForm() {
       </div>
     </Form>
     </div>
+    </Content>
   )
 }
 

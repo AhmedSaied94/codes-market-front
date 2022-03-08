@@ -38,3 +38,11 @@
 .ant-upload.ant-upload-select-picture-card:hover {
   border-color: rgb(254 91 24);
 }
+
+.dragger {
+  margin: 1rem 0;
+}
+
+.dragger .ant-upload.ant-upload-drag {
+  padding: 0.5rem;
+}

@@ -3,16 +3,38 @@ import { Table, Typography, Button, Menu, Tag } from 'antd';
 import { Link, Routes, Route } from 'react-router-dom'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import UploadItem from './Upload';
-
+import { UserContext } from '../../App';
 
 
 const { Title } = Typography;
 
 
 const Myitems = (props) => {
+    const { authedUser } = React.useContext(UserContext)
+    const [itemsData, setItemsData] = React.useState([])
     const [current, setCurrent] = React.useState('all')
+    const items = authedUser ? authedUser.items : []
+
+
+  React.useEffect(()=>{
+    if (authedUser) setItemsData(authedUser.items)
+  }, [])
+
     const handleClick = e => {
-        console.log('click ', e);
+        switch(e.key){
+          case 'approved':
+            setItemsData(items.filter(item => item.status === 'approved'))
+            break;
+          case 'waiting':
+            setItemsData(items.filter(item => item.status === 'waiting'))
+            break;
+          case 'rejected':
+            setItemsData(items.filter(item => item.status === 'rejected'))
+            break;
+          default:
+            setItemsData(items)
+            break;
+        }
         setCurrent(e.key);
       };
     const columns = [
@@ -82,23 +104,39 @@ const Myitems = (props) => {
           responsive:['xs']
         },
     ]
-    const data = []
-    for (let index = 1; index < 6; index++) {
-        data.push({
-            key: index,
-            logo: 'logo'+index,
-            name: 'item' + index,
-            price: '$25',
-            status: 'approved',
-            sales: 5,
-            action: index,
-            actionstatus:{
-              amount:index,
-              status:'success'
-            }
-        })
-        
-    }
+    // const data = []
+    // for (let index = 1; index < 6; index++) {
+    //     data.push({
+    //         key: index,
+    //         logo: 'logo'+index,
+    //         name: 'item' + index,
+    //         price: '$25',
+    //         status: 'approved',
+    //         sales: 5,
+    //         action: index,
+    //         actionstatus:{
+    //           amount:index,
+    //           status:'success'
+    //         }
+    //     })   
+    // }
+
+    const viewData = itemsData.map(item => {
+      return {
+        key:item.id,
+        logo:item.logo,
+        name:item.name,
+        price:item.price,
+        status:item.status,
+        sales:item.downloads,
+        action:item.id,
+        actionstatus:{
+          action:item.id,
+          status:item.status
+        }
+
+      }
+    })
   return (
     <div>
             <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{marginBottom:'1.5rem'}}>
@@ -127,7 +165,7 @@ const Myitems = (props) => {
         <Routes>
           <Route path='/' element={<>
             <Title level={3}> My Items</Title>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={viewData} />
           </>} />
           <Route path='/upload' element={<UploadItem />} />
         </Routes>

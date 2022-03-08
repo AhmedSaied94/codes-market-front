@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { Table, Tag, Space } from 'antd';
 import { Typography, Form, Input, Button, InputNumber } from 'antd';
+import { UserContext } from '../../App';
 
 const { Title } = Typography;
 
 const WithdrawMoney = (props) => {
-
+    const { authedUser } = React.useContext(UserContext)
     const [form] = Form.useForm()
     const columns = [
       {
@@ -29,15 +30,17 @@ const WithdrawMoney = (props) => {
 
     const data = [{
         key: 1,
-        totalearnings: 2500,
-        totalwithdraws: 1500,
-        availablecredit: 1000,
+        totalearnings:authedUser && authedUser.earnings.length > 0 ? authedUser.earnings.reduce((a,b) => a.amount + b.amount) : 0,
+        totalwithdraws:authedUser && authedUser.withdraws.length > 0 ? authedUser.withdraws.reduce((a,b) => a.amount + b.amount) : 0,
+        availablecredit:authedUser ? authedUser.credit : 0,
       }]
 
       
     
 
   return (
+    <>
+    { authedUser &&
     <div>
       <Title level={3}>Withdraw Money</Title>
       <Table columns={columns} dataSource={data} />
@@ -62,6 +65,8 @@ const WithdrawMoney = (props) => {
       </Form>
 
     </div>
+    }
+    </>
   )
 }
 

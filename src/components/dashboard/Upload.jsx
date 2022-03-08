@@ -17,16 +17,79 @@ const UploadItem = (props) => {
     const [pervTitle, setPrevTitle] = React.useState('')
     const [pervVisible, setPrevVisible] = React.useState(false)
     const [fileList, SetFilelist] = React.useState(new Array());
-    const [iconUrl, setIconUrl] = React.useState('')
-    const [preUrl, setPreUrl] = React.useState('')
+    const [icon, setIcon] = React.useState('')
+    const [preview, setPreview] = React.useState('')
+    const [productDetails, setProductDetails] = React.useState({})
+    const [catigory, setCatigory] = React.useState('')
+    const [subcatigory, setSubcatigory] = React.useState('')
+    const [frameworks, setFrameworks] = React.useState('')
+    const [file_types, setFile_types] = React.useState('')
+    const [zip_file, setZip_file] = React.useState()
+    const itemName = React.useRef()
+    const itemShortDesc = React.useRef()
+    const itemDesc = React.useRef()
+    const itemFeatures = React.useRef()
+    const itemDemoUrl = React.useRef()
+    const itemTestApk = React.useRef()
+    const itemTestIos = React.useRef()
+    const itemYTurl = React.useRef()
+    const itemSize = React.useRef()
+    const itemPrice = React.useRef()
+
+
+    
+    const main = new FormData()
+
    
 
 
+
+    const addItem = () => {
+        main.append('name', productDetails.name)
+        main.append('short_describtion', productDetails.short_describtion)
+        main.append('catigory', productDetails.catigory)
+        main.append('subcatigory', productDetails.subcatigory)
+        main.append('describtion', productDetails.describtion)
+        main.append('features', productDetails.features)
+        main.append('demo_url', productDetails.demo_url)
+        main.append('test_apk', productDetails.test_apk)
+        main.append('test_ios', productDetails.test_ios)
+        main.append('youtube_url', productDetails.youtube_url)
+        main.append('size', itemSize.current.props.value)
+        main.append('price', itemPrice.current.value)
+        main.append('zip_file', zip_file, zip_file.name)
+        main.append('icon_img', icon, icon.name)
+        main.append('preview_img', preview, preview.name)
+
+        const screens = new FormData()
+        for (let index = 0; index < fileList.length; index++) {
+            screens.append(String(index), fileList[index].originFileObj, fileList[index].name)    
+        }
+
+        console.log(main.has('name'))
+    }
+
+
     const handleSteps = move => {
-        move === 'next' ?
-        setCurrent(current + 1)
-        :
-        setCurrent(current - 1)
+        if(move === 'next'){
+            if(current === 0){
+                const data = {
+                    name: itemName.current.props.value,
+                    short_describtion: itemShortDesc.current.props.value,
+                    catigory,
+                    subcatigory,
+                    describtion: itemDesc.current.resizableTextArea.props.value,
+                    features: itemFeatures.current.resizableTextArea.props.value,
+                    demo_url: itemDemoUrl.current.props.value,
+                    test_apk: itemTestApk.current.props.value,
+                    test_ios: itemTestIos.current.props.value,
+                    youtube_url: itemYTurl.current.props.value,
+                }
+                setProductDetails(data)
+            }
+            setCurrent(current + 1)
+        }
+        else setCurrent(current - 1)
     }
  //////////////  screens upload //////////////   
     const getBase64 = (file) => {
@@ -52,7 +115,6 @@ const UploadItem = (props) => {
     };
 
     const handleChangeList = (info) =>{
-        
         SetFilelist(info.fileList)
     }
 
@@ -73,15 +135,15 @@ const UploadItem = (props) => {
 
     //////// Select Options //////////
     const catigoryChange = value => {
-        console.log(value)
+        setCatigory(value)
     }
     const subCatigoryChange = value => {
-        console.log(value)
+        setSubcatigory(value)
     }
     //////// Select Options //////////
 
     ////////// Checkbox Groups /////////
-    const frameworks = [
+    const frameworksOptions = [
         { label: 'Apple', value: 'Apple' },
         { label: 'Pear', value: 'Pear' },
         { label: 'Orange', value: 'Orange' },
@@ -92,10 +154,10 @@ const UploadItem = (props) => {
         { label: 'Orange', value: 'Orange' },
     ];
     const handleFiles = values => {
-        console.log(values)
+        setFile_types(values)
     }
     const handleFW = values => {
-        console.log(values)
+        setFrameworks(values)
     }
     ////////// Checkbox Groups /////////
 
@@ -105,47 +167,107 @@ const UploadItem = (props) => {
             title:'Product details',
             content:(
                 <Form layout='vertical' form={form}>
-                    <Form.Item required  label='Name'>
-                        <Input placeholder="Name" />
+                    <Form.Item  
+                    name="name" 
+                    rules={[
+                    { required: true,
+                        message: 'Please input item name', 
+                        whitespace: true }]}
+                    label='Name'>
+                        <Input ref={itemName} placeholder="Name" />
                     </Form.Item>
-                    <Form.Item required  label='Short Describtion (Max 80 Characters)'>
-                        <Input placeholder="Short Describtion" />
+                    <Form.Item 
+                    name="short_desc" 
+                    rules={[
+                    { required: true,
+                        message: 'Please input item short describtion', 
+                        whitespace: true }]}
+                    label='Short Describtion (Max 80 Characters)'>
+                        <Input ref={itemShortDesc} placeholder="Short Describtion" />
                     </Form.Item>
-                    <Form.Item required label='Catigory'>
+                    <Form.Item 
+                    name="catigory" 
+                    rules={[
+                    { required: true,
+                        message: 'Please choose catigory', 
+                        whitespace: true }]}
+                    label='Catigory'>
                         <Select placeholder='Catigory...' style={{ width: '100%' }} onChange={catigoryChange}>
                             <Option value="Indbendent Developer">Indbendent Developer</Option>
                             <Option value="Development Agency">Development Agency</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item required label='Subcatigory'>
+                    <Form.Item 
+                    name="subcatigory" 
+                    rules={[
+                    { required: true,
+                        message: 'Please choose subcatigory', 
+                        whitespace: true }]}
+                    label='Subcatigory'>
                         <Select placeholder='subcatigory...' style={{ width: '100%' }} onChange={subCatigoryChange}>
                             <Option value="Indbendent Developer">Indbendent Developer</Option>
                             <Option value="Development Agency">Development Agency</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item required label='Frameworks'>
-                        <Checkbox.Group options={frameworks} onChange={handleFW} />
+                    <Form.Item 
+                    name="frameworks" 
+                    rules={[
+                    { required: true,
+                        message: 'Please choose frameworks', 
+                        whitespace: true }]}
+                    label='Frameworks'>
+                        <Checkbox.Group options={frameworksOptions} onChange={handleFW} />
                     </Form.Item>
-                    <Form.Item required label='Files Included'>
+                    <Form.Item 
+                    name="file_types" 
+                    rules={[
+                    { required: true,
+                        message: 'Please choose files types', 
+                        whitespace: true }]}
+                    label='Files Included'>
                         <Checkbox.Group options={filesIncluded} onChange={handleFiles} />
                     </Form.Item>
-                    <Form.Item required label='Describtion'>
-                        <TextArea placeholder='Describtion' />
+                    <Form.Item 
+                    name="desc" 
+                    rules={[
+                    { required: true,
+                        message: 'Please input item describtion', 
+                        whitespace: true }]}
+                    label='Describtion'>
+                        <TextArea ref={itemDesc} placeholder='Describtion' />
                     </Form.Item>
-                    <Form.Item required label='Features'>
-                        <TextArea placeholder='Features' />
+                    <Form.Item 
+                    name="features" 
+                    rules={[
+                    { required: true,
+                        message: 'Please input item features', 
+                        whitespace: true }]}
+                    label='Features'>
+                        <TextArea ref={itemFeatures} placeholder='Features' />
                     </Form.Item>
-                    <Form.Item required label='Live Demo URL: (eg. your URL or Google Drive)'>
-                        <Input placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
+                    <Form.Item 
+                    name="demo_url" 
+                    rules={[
+                    { required: true,
+                        message: 'Please input item demo url', 
+                        whitespace: true }]}
+                    label='Live Demo URL: (eg. your URL or Google Drive)'>
+                        <Input ref={itemDemoUrl} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
-                    <Form.Item required label='Test APK / Google Play Link:'>
-                        <Input placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
+                    <Form.Item 
+                    name="test_apk" 
+                    label='Test APK / Google Play Link:'>
+                        <Input ref={itemTestApk} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
-                    <Form.Item label='iOS Link: (optional)'>
-                        <Input placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
+                    <Form.Item 
+                    name="test_ios" 
+                    label='iOS Link: (optional)'>
+                        <Input ref={itemTestIos} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
-                    <Form.Item label='YouTube URL: (optional)'>
-                        <Input placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
+                    <Form.Item 
+                    name="youtube_url" 
+                    label='YouTube URL: (optional)'>
+                        <Input ref={itemYTurl} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
                 </Form>
             )
@@ -154,12 +276,13 @@ const UploadItem = (props) => {
             title:'Image Assest',
             content: (
                 <>
-                <div style={{display:'flex', justifyContent:'space-evenly', padding:'1rem 0'}}>
+                <div style={{display:'flex',flexWrap:'wrap' , justifyContent:'space-evenly', padding:'1rem 0'}}>
+                    <div className='dragger'>
                     <Dragger
                     name='icon'
                     beforeUpload={()=> false}
-                    onChange={(info) => console.log('done')}
-                    style={{padding:'0 0.5rem'}}>
+                    onChange={(info) => setIcon(info.file)}
+                    >
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                         </p>
@@ -168,11 +291,13 @@ const UploadItem = (props) => {
                             Icon Image: * (size: 200x200)
                         </p>
                     </Dragger>
+                    </div>
+                    <div className='dragger'>
                     <Dragger 
                     name='preview'
                     beforeUpload={()=> false}
-                    onChange={(info) => console.log('done')}
-                    style={{padding:'0 0.5rem'}}>
+                    onChange={(info) => setPreview(info.file)}
+                    >
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                         </p>
@@ -181,6 +306,7 @@ const UploadItem = (props) => {
                             Preview Image: * (size 590x300)
                         </p>
                     </Dragger>
+                    </div>
                 </div>
                 <div style={{padding:'1rem'}}>
                     <Upload
@@ -212,7 +338,7 @@ const UploadItem = (props) => {
                     <Dragger 
                     name='preview'
                     beforeUpload={()=> false}
-                    onChange={(info) => console.log('done')}
+                    onChange={(info) => setZip_file(info.file)}
                     style={{padding:'0 0.5rem'}}>
                         <p className="ant-upload-drag-icon">
                         <InboxOutlined />
@@ -224,10 +350,10 @@ const UploadItem = (props) => {
                     </Dragger>
                     <Form style={{padding:'1rem 0'}} form={form} layout='vertical'>
                         <Form.Item required  label='File size: (size of .ZIP file in MB)'>
-                            <Input placeholder="File Size" />
+                            <Input ref={itemSize} placeholder="File Size" />
                         </Form.Item>
                         <Form.Item required  label='Price: (Single Licence)'>
-                            <InputNumber style={{width:'100%'}} />
+                            <InputNumber ref={itemPrice} style={{width:'100%'}} />
                         </Form.Item>
                         <Form.Item required  label='Price: (Multiple Licence)'>
                             <InputNumber style={{width:'100%'}} />
@@ -250,12 +376,12 @@ const UploadItem = (props) => {
         <div className="steps-content" style={{padding:'1rem 0'}}>{steps[current].content}</div>
         <div className="steps-action">
         {current < steps.length - 1 && (
-            <Button type="primary" onClick={() => handleSteps('next')}>
+            <Button htmlType='submit' type="primary" onClick={() => handleSteps('next')}>
             Next
             </Button>
         )}
         {current === steps.length - 1 && (
-            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+            <Button type="primary" onClick={addItem}>
             Done
             </Button>
         )}

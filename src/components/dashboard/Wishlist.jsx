@@ -1,12 +1,17 @@
 import * as React from 'react'
 import { Table, Tag, Space } from 'antd';
 import { Typography, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 const { Title } = Typography;
 
 const Wishlist = (props) => {
+  const { authedUser } = React.useContext(UserContext)
 
+    const removeItem = id => {
 
+    }
     const columns = [
       {
         title: 'Name',
@@ -32,8 +37,8 @@ const Wishlist = (props) => {
         render: id => { 
             return (
                 <div style={{display:'flex', justifyContent:'space-evenly'}}>
-                        <Button type="primary" shape="circle">A</Button>
-                        <Button type="primary" danger shape="circle">B</Button>
+                        <Link to={`/item?id=${id}`}><Button type="primary" shape="rounded">Details</Button></Link>
+                        <Button onClick={() => removeItem(id)} type="dashed" danger shape="rounded">Remove</Button>
                 </div>
             )
         }
@@ -41,23 +46,34 @@ const Wishlist = (props) => {
      
     ];
 
-    const data = []
-    for (let index = 1; index < 6; index++) {
-      data.push(        {
-        key: index,
-        name: 'item'+index,
-        price: '$25',
-        action: 'index',
-      })
-    }
-      
+    // const data = []
+    // for (let index = 1; index < 6; index++) {
+    //   data.push(        {
+    //     key: index,
+    //     name: 'item'+index,
+    //     price: '$25',
+    //     action: 'index',
+    //   })
+    // }
+    const items = authedUser && authedUser.wishlist ? authedUser.wishlist.map(item => {
+      return {
+        key:item.id,
+        name:item.name,
+        price:item.price,
+        action:item.id
+      }
+    }) : []
     
 
   return (
+    <>
+    { authedUser &&
     <div>
         <Title level={3}>Wishlist</Title>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={items} />
     </div>
+    }
+    </>
   )
 }
 
