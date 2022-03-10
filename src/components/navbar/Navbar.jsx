@@ -9,6 +9,15 @@ const { SubMenu } = Menu;
 const Navbar = () => {
     const [current, setCurrent] = React.useState('home')
     const { authedUser } = React.useContext(UserContext)
+
+    React.useEffect(()=> {
+      if(window.location.pathname === '/') setCurrent('home')
+      else if(window.location.pathname.includes('upload')) setCurrent('upload')
+      else if(window.location.pathname.includes('dashboard')) setCurrent('dashboard')
+      else if(window.location.pathname.includes('catalog')) setCurrent('catalog')
+
+    }, [window.location.pathname])
+
     const handleClick = e => {
 
       setCurrent(e.key);
@@ -32,7 +41,7 @@ const Navbar = () => {
           </Link>
           </Menu.Item>
           {
-          authedUser ?
+          authedUser && authedUser.id ?
           <>
 
           <Menu.Item key="dashboard" icon={<AppstoreOutlined />}>

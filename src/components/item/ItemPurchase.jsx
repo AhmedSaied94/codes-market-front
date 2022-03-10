@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { Descriptions, Card, Button, Form, Select, Typography } from 'antd'
+import { ItemContext } from '../../pages/ItemPage'
+import { UserContext } from '../../App'
 const { Option } = Select
 const { Title } = Typography
 
 const ItemPurchase = () => {
+    const { item } = React.useContext(ItemContext)
     const licenseChange = value => {
         console.log(value)
     }
@@ -18,7 +21,7 @@ const ItemPurchase = () => {
                             <Option value="Multiple License">Multiple License</Option>
                         </Select>
                     </Form.Item>
-                    <Title level={2}>$30</Title>
+                    <Title level={2}>{`$ ${item.price}`}</Title>
                 </div>
 
                 <p>We offer support</p>

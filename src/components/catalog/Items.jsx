@@ -1,17 +1,19 @@
 import * as React from 'react'
 import ItemCard from '../item/ItemCard'
 import { Row, Col } from 'antd'
+import { ItemsContext } from '../../pages/Catalog'
 
-    const arr = new Array(9).fill('a')
 
 
 const Items = (props) => {
+  const { items } = React.useContext(ItemsContext)
+
   return (
     <Row gutter={[16, 16]}>
-        {arr.map(i => {
+        {items.map(item => {
             return (
-                <Col xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
-                        <ItemCard />
+                <Col key={item.id} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                        <ItemCard item={item} />
                 </Col>
             )
         })}

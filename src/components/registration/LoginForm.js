@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './RegisterForm.css';
-import { Form, Input, Button, Checkbox, Layout} from 'antd';
+import { Form, Input, Button, Checkbox, Layout, message, Alert} from 'antd';
 import { axiosInstance } from '../../Axios';
 import { UserContext } from '../../App';
 
@@ -61,7 +61,11 @@ function LoginForm() {
       localStorage.setItem('foxCodes_refreshToken', res.data.refresh_token)
       window.location.href = '/'
     })
-    .catch(error => console.log(error.response))
+    .catch(error => {
+      console.log(error.response)
+      error.response.data.error_description === "Invalid credentials given." &&
+      message.error('invalid email or password', 8)
+    })
 
   }
   return (
@@ -75,6 +79,7 @@ function LoginForm() {
     style={{backgroundColor:'#fff', padding:'3rem'}}
     scrollToFirstError
     >
+
       <Form.Item 
       name="email" 
       label="E-mail" 

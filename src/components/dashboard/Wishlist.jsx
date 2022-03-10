@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { Table, Tag, Space } from 'antd';
-import { Typography, Button } from 'antd';
+import { Typography, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../App';
+import { axiosFetchInstance, handleUnauthorized } from '../../Axios';
 
 const { Title } = Typography;
 
 const Wishlist = (props) => {
   const { authedUser } = React.useContext(UserContext)
 
-    const removeItem = id => {
 
-    }
     const columns = [
       {
         title: 'Name',
@@ -55,7 +54,7 @@ const Wishlist = (props) => {
     //     action: 'index',
     //   })
     // }
-    const items = authedUser && authedUser.wishlist ? authedUser.wishlist.map(item => {
+    const items = authedUser.wishlist_items ? authedUser.wishlist_items.map(item => {
       return {
         key:item.id,
         name:item.name,
@@ -63,7 +62,16 @@ const Wishlist = (props) => {
         action:item.id
       }
     }) : []
-    
+    const removeItem = id => {
+      axiosFetchInstance.get(`/handle-wishlist/${id}/remove/`)
+      .then(res => {
+          message.success(res.data.success)
+          setTimeout(()=> window.location.reload(), 1000)
+      })
+      .catch(error => {
+          handleUnauthorized(error)
+      })
+  }
 
   return (
     <>

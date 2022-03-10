@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { Table, Typography, Button, Menu, Tag } from 'antd';
+import { Table, Typography, Button, Menu, Tag, Avatar, message } from 'antd';
 import { Link, Routes, Route } from 'react-router-dom'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import { axiosFetchInstance, handleUnauthorized } from '../../Axios';
 import UploadItem from './Upload';
 import { UserContext } from '../../App';
 
@@ -10,29 +11,79 @@ const { Title } = Typography;
 
 
 const Myitems = (props) => {
-    const { authedUser } = React.useContext(UserContext)
+    const { authedUser, host } = React.useContext(UserContext)
     const [itemsData, setItemsData] = React.useState([])
     const [current, setCurrent] = React.useState('all')
-    const items = authedUser ? authedUser.items : []
+    const [viewData, setViewData] = React.useState()
 
 
-  React.useEffect(()=>{
-    if (authedUser) setItemsData(authedUser.items)
-  }, [])
+  React.useMemo(()=>{
+   window.location.pathname === '/dashboard/myitems/upload' && setCurrent('add')
+    setItemsData(authedUser.items)
+    setViewData(authedUser.items.map(item => {
+      return {
+        key:item.id,
+        logo:item.logo_img,
+        name:item.name,
+        price:item.price,
+        status:item.status,
+        sales:item.downloads,
+        action:item.id,
+        actionstatus:{
+          action:item.id,
+          status:item.status
+        }
+
+      }
+    }))
+  
+  }, [authedUser])
+
+  React.useEffect(() => {
+    setViewData(itemsData.map(item => {
+      return {
+        key:item.id,
+        logo:item.icon_img,
+        name:item.name,
+        price:item.price,
+        status:item.status,
+        sales:item.downloads,
+        action:item.id,
+        actionstatus:{
+          action:item.id,
+          status:item.status
+        }
+
+      }
+    }))
+  }, [itemsData])
+
+  const deleteItem = id => {
+      axiosFetchInstance.delete(`/delete-item/${id}/`)
+      .then(res => {
+          message.success('item has deleted successfully', 3)
+          setTimeout(()=> window.location.reload(), 1000)
+      })
+      .catch(error =>{
+        !error.response || error.response.status === 401 ? 
+        handleUnauthorized(error) :
+        message.error(error.response.data.error, 5)
+      })
+  }
 
     const handleClick = e => {
         switch(e.key){
           case 'approved':
-            setItemsData(items.filter(item => item.status === 'approved'))
+            setItemsData(authedUser.items.filter(item => item.status === 'approved'))
             break;
           case 'waiting':
-            setItemsData(items.filter(item => item.status === 'waiting'))
+            setItemsData(authedUser.items.filter(item => item.status === 'waiting'))
             break;
           case 'rejected':
-            setItemsData(items.filter(item => item.status === 'rejected'))
+            setItemsData(authedUser.items.filter(item => item.status === 'rejected'))
             break;
           default:
-            setItemsData(items)
+            setItemsData(authedUser.items)
             break;
         }
         setCurrent(e.key);
@@ -42,6 +93,9 @@ const Myitems = (props) => {
           title: 'Logo',
           dataIndex: 'logo',
           key: 'logo',
+          render: img => {
+            return <Avatar src={`${host}${img}`} />
+          },
           responsive:['sm']
         },
         {
@@ -72,10 +126,10 @@ const Myitems = (props) => {
           key: 'action',
           render: (id) => {
               return (
-              <div style={{display:'flex', justifyContent:'space-around'}}>
-                      <Button type="primary" shape="circle">A</Button>
-                      <Button type="primary" danger shape="circle">B</Button>
-                      <Button type="dashed" shape="circle">C</Button>
+              <div style={{display:'flex', justifyContent:'space-around', flexWrap:'wrap'}}>
+                      <Link to={`/item?id=${id}`}><Button style={{margin:'0.25rem 0'}} type="primary" shape="rounded">View</Button></Link>
+                      <Link to={`/dashboard/myitems/upload?item=${id}`}><Button style={{margin:'0.25rem 0'}} type="primary" danger shape="rounded">Edit</Button></Link>
+                      <Button style={{margin:'0.25rem 0'}} type="dashed" onClick={() => deleteItem(id)} shape="rounded">Delete</Button>
               </div>
               )
           },
@@ -121,24 +175,11 @@ const Myitems = (props) => {
     //     })   
     // }
 
-    const viewData = itemsData.map(item => {
-      return {
-        key:item.id,
-        logo:item.logo,
-        name:item.name,
-        price:item.price,
-        status:item.status,
-        sales:item.downloads,
-        action:item.id,
-        actionstatus:{
-          action:item.id,
-          status:item.status
-        }
 
-      }
-    })
   return (
     <div>
+      {viewData &&
+      <>
             <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{marginBottom:'1.5rem'}}>
             <Menu.Item key="all" icon={<MailOutlined />}>
               <Link to=''>
@@ -147,13 +188,14 @@ const Myitems = (props) => {
               </Link>
             </Menu.Item>
             <Menu.Item key="approved"  icon={<AppstoreOutlined />}>
-              Approved 
+            <Link to='/dashboard/myitems?approved'>Approved</Link>
             </Menu.Item>
             <Menu.Item key="waiting"  icon={<AppstoreOutlined />}>
-              Waiting 
+            <Link to='/dashboard/myitems?waiting'>Waiting</Link>
+               
             </Menu.Item>
             <Menu.Item key="rejected"  icon={<AppstoreOutlined />}>
-              Rejected 
+            <Link to='/dashboard/myitems?rejected'>Rejected</Link> 
             </Menu.Item>
             <Menu.Item key="add" icon={<AppstoreOutlined />}>
               <Link to='upload' >
@@ -165,12 +207,16 @@ const Myitems = (props) => {
         <Routes>
           <Route path='/' element={<>
             <Title level={3}> My Items</Title>
+            {viewData &&
             <Table columns={columns} dataSource={viewData} />
+          }
           </>} />
           <Route path='/upload' element={<UploadItem />} />
         </Routes>
-
+    </>
+    }
     </div>
+  
   )
 }
 

@@ -2,6 +2,10 @@ import * as React from 'react';
 import './Upload.css'
 import { Steps, Button, message, Form, Input, Select, Checkbox, Modal, Upload, Typography, InputNumber } from 'antd';
 import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
+import { useLocation } from 'react-router-dom'
+import { UserContext } from '../../App'
+import { axiosFetchInstance, handleUnauthorized } from '../../Axios'
+import QueryString from 'query-string'
 const { TextArea } = Input;
 const { Step } = Steps;
 const { Dragger } = Upload;
@@ -12,17 +16,23 @@ const { Title } = Typography;
 
 const UploadItem = (props) => {
     const [form] = Form.useForm()
+    const { authedUser } = React.useContext(UserContext)
+    const [initialValues, setInitialValues] = React.useState(false)
     const [current, setCurrent] = React.useState(0)
+    const [catigoriesOptions, setCatigoriesOptions] = React.useState([])
+    const [subsOptions, setSubOptions] = React.useState([])
+    const [fwOptions, setFwOptions] = React.useState([])
+    const [fileOptions, setFileOptions] = React.useState([])
     const [prevImg, setPrevImg] = React.useState('')
     const [pervTitle, setPrevTitle] = React.useState('')
     const [pervVisible, setPrevVisible] = React.useState(false)
-    const [fileList, SetFilelist] = React.useState(new Array());
+    const [fileList, SetFilelist] = React.useState([]);
     const [icon, setIcon] = React.useState('')
     const [preview, setPreview] = React.useState('')
     const [productDetails, setProductDetails] = React.useState({})
     const [catigory, setCatigory] = React.useState('')
     const [subcatigory, setSubcatigory] = React.useState('')
-    const [frameworks, setFrameworks] = React.useState('')
+    const [frameworks, setFrameworks] = React.useState([])
     const [file_types, setFile_types] = React.useState('')
     const [zip_file, setZip_file] = React.useState()
     const itemName = React.useRef()
@@ -35,44 +45,145 @@ const UploadItem = (props) => {
     const itemYTurl = React.useRef()
     const itemSize = React.useRef()
     const itemPrice = React.useRef()
+    const location = useLocation()
+    const query = QueryString.parse(location.search)
 
 
     
-    const main = new FormData()
 
-   
+   React.useMemo(() => {
+    axiosFetchInstance.get('/catigories/')
+    .then(res => {
+        console.log(res.data)
+        setCatigoriesOptions(res.data)
+    })
+    .catch(error => {
+        !error.response || error.response.status === 401 ? 
+        handleUnauthorized(error) :
+        console.log(error.response)
+    })
+    if (query.item) {
+        axiosFetchInstance.get(`/item-details/${query.item}/`)
+        .then(res => {
+            const item = res.data
+            setInitialValues({
+                name:item.name,
+                short_desc:item.short_describtion,
+                file_types:item.file_types.map(f => f.id),
+                desc:item.describtion,
+                demo_url:item.demo_url,
+                test_apk:item.test_apk,
+                test_ios:item.test_ios,
+                youtube_url:item.youtube_url,
+                size:item.size,
+                features:item.featurs,
+                price:item.price,
+            })
+
+        })
+        .catch(error => {
+            console.log(error)
+            !error.response || error.response.status === 401 ? 
+            handleUnauthorized(error) :
+            console.log(error.response)
+        })
+    }
+    else setInitialValues({})
+  
+   }, [])
 
 
 
     const addItem = () => {
-        main.append('name', productDetails.name)
-        main.append('short_describtion', productDetails.short_describtion)
-        main.append('catigory', productDetails.catigory)
-        main.append('subcatigory', productDetails.subcatigory)
-        main.append('describtion', productDetails.describtion)
-        main.append('features', productDetails.features)
-        main.append('demo_url', productDetails.demo_url)
-        main.append('test_apk', productDetails.test_apk)
-        main.append('test_ios', productDetails.test_ios)
-        main.append('youtube_url', productDetails.youtube_url)
-        main.append('size', itemSize.current.props.value)
-        main.append('price', itemPrice.current.value)
-        main.append('zip_file', zip_file, zip_file.name)
-        main.append('icon_img', icon, icon.name)
-        main.append('preview_img', preview, preview.name)
+        let data;
+        const main = new FormData()
+        try {
 
-        const screens = new FormData()
-        for (let index = 0; index < fileList.length; index++) {
-            screens.append(String(index), fileList[index].originFileObj, fileList[index].name)    
+            main.append('zip_file', zip_file, zip_file.name)
+            main.append('icon_img', icon, icon.name)
+            main.append('preview_img', preview, preview.name)
+
+            
+            if (fileList.length>0){
+                for (let index = 0; index < fileList.length; index++) {
+                    main.append(`screen${index+1}`, fileList[index].originFileObj, fileList[index].name)    
+                }
+            }
+        } catch { 
+            message.error('please upload all requier data', 5)
+            main = new FormData()
+            setCurrent(0)
+            return
         }
+            const nf = []
+            Object.keys(frameworks).map(key =>{
+                frameworks[key].map(f => nf.push(f))
+            })
+            console.log(nf)
 
-        console.log(main.has('name'))
+            data = {
+                name:productDetails.name,
+                short_describtion:productDetails.short_describtion,
+                describtion:productDetails.describtion,
+                catigory:productDetails.catigory,
+                sub_catigory:productDetails.subcatigory,
+                featurs:productDetails.features,
+                demo_url:productDetails.demo_url,
+                size:itemSize.current.value,
+                price:itemPrice.current.value,
+                file_types,
+                frameworks:nf,
+            }
+
+        if (query.item){
+            axiosFetchInstance.put(`/update-item/${query.item}/`, data)
+            .then(res => {
+               axiosFetchInstance.put(`/update-item/${query.item}/`, main)
+               .then(res => {
+                   console.log(res.data)
+                   message.success('item updated', 3)
+                   setTimeout(() => window.location.href = '/dashboard/myitems', 1000)
+               })
+               .catch(error => {
+                    handleUnauthorized(error) 
+               })
+            })
+            .catch(error => {
+                error.response.status === 401 || !error.response.status ?
+                handleUnauthorized(error) :
+                main = new FormData()
+                message.error('please fill in all requierd fields', 5)
+                setCurrent(0)
+            })
+        } else {
+            axiosFetchInstance.post('/add-item/', data)
+            .then(res => {
+                axiosFetchInstance.put(`/update-item/${res.data.id}/`, main)
+                .then(res => {
+                    console.log(res.data)
+                    message.success('item added', 3)
+                    setTimeout(() => window.location.href = '/dashboard/myitems', 1000)
+                })
+                .catch(error => {
+                     handleUnauthorized(error) 
+                })
+            })
+            .catch(error => {
+                error.response.status === 401 || !error.response.status ?
+                handleUnauthorized(error) :
+                console.log(error.response)
+                main = new FormData()
+                message.error('please fill in all requierd fields', 5)
+                setCurrent(0)
+            })
+        }
     }
 
 
     const handleSteps = move => {
         if(move === 'next'){
             if(current === 0){
+                console.log(itemName.current)
                 const data = {
                     name: itemName.current.props.value,
                     short_describtion: itemShortDesc.current.props.value,
@@ -85,9 +196,13 @@ const UploadItem = (props) => {
                     test_ios: itemTestIos.current.props.value,
                     youtube_url: itemYTurl.current.props.value,
                 }
+                console.log(data)
                 setProductDetails(data)
+
+
             }
             setCurrent(current + 1)
+            console.log(frameworks)
         }
         else setCurrent(current - 1)
     }
@@ -135,6 +250,18 @@ const UploadItem = (props) => {
 
     //////// Select Options //////////
     const catigoryChange = value => {
+        axiosFetchInstance.get(`/options/${value}/`)
+        .then(res => {
+            console.log(res.data)
+            setSubOptions(res.data.subcatigories)
+            setFwOptions(res.data.framework_types)
+            setFileOptions(res.data.file_types)
+        })
+        .catch(error => {
+            error.response.status === 401 || !error.response.status ?
+            handleUnauthorized(error) :
+            console.log(error.response)
+        })
         setCatigory(value)
     }
     const subCatigoryChange = value => {
@@ -143,20 +270,12 @@ const UploadItem = (props) => {
     //////// Select Options //////////
 
     ////////// Checkbox Groups /////////
-    const frameworksOptions = [
-        { label: 'Apple', value: 'Apple' },
-        { label: 'Pear', value: 'Pear' },
-        { label: 'Orange', value: 'Orange' },
-    ];
-    const filesIncluded = [
-        { label: 'Apple', value: 'Apple' },
-        { label: 'Pear', value: 'Pear' },
-        { label: 'Orange', value: 'Orange' },
-    ];
+
     const handleFiles = values => {
         setFile_types(values)
     }
     const handleFW = values => {
+        console.log(values)
         setFrameworks(values)
     }
     ////////// Checkbox Groups /////////
@@ -166,93 +285,77 @@ const UploadItem = (props) => {
         {
             title:'Product details',
             content:(
-                <Form layout='vertical' form={form}>
-                    <Form.Item  
-                    name="name" 
-                    rules={[
-                    { required: true,
-                        message: 'Please input item name', 
-                        whitespace: true }]}
+                <Form initialValues={initialValues} layout='vertical' form={form}>
+                    <Form.Item
+                    name='name'  
                     label='Name'>
-                        <Input ref={itemName} placeholder="Name" />
+                        <Input required ref={itemName}  placeholder="Name" />
                     </Form.Item>
-                    <Form.Item 
-                    name="short_desc" 
-                    rules={[
-                    { required: true,
-                        message: 'Please input item short describtion', 
-                        whitespace: true }]}
+                    <Form.Item
+                    name='short_desc' 
                     label='Short Describtion (Max 80 Characters)'>
-                        <Input ref={itemShortDesc} placeholder="Short Describtion" />
+                        <Input required ref={itemShortDesc} placeholder="Short Describtion" />
                     </Form.Item>
-                    <Form.Item 
-                    name="catigory" 
-                    rules={[
-                    { required: true,
-                        message: 'Please choose catigory', 
-                        whitespace: true }]}
+                    <Form.Item
+                    name='catigory' 
                     label='Catigory'>
-                        <Select placeholder='Catigory...' style={{ width: '100%' }} onChange={catigoryChange}>
-                            <Option value="Indbendent Developer">Indbendent Developer</Option>
-                            <Option value="Development Agency">Development Agency</Option>
+                        <Select required placeholder='Catigory...' style={{ width: '100%' }} onChange={catigoryChange}>
+                            {catigoriesOptions.map(c => {
+                                return <Option key={c.id} value={c.id}>{c.name}</Option>
+                            })}
                         </Select>
                     </Form.Item>
                     <Form.Item 
-                    name="subcatigory" 
-                    rules={[
-                    { required: true,
-                        message: 'Please choose subcatigory', 
-                        whitespace: true }]}
+                    name='subcatigory'
                     label='Subcatigory'>
-                        <Select placeholder='subcatigory...' style={{ width: '100%' }} onChange={subCatigoryChange}>
-                            <Option value="Indbendent Developer">Indbendent Developer</Option>
-                            <Option value="Development Agency">Development Agency</Option>
+                        <Select required disabled={subsOptions.length ? false : true} placeholder='subcatigory...' style={{ width: '100%' }} onChange={subCatigoryChange}>
+                            {subsOptions.map(s => {
+                                return <Option key={s.id} value={s.id}>{s.name}</Option>
+                            })}
                         </Select>
                     </Form.Item>
-                    <Form.Item 
-                    name="frameworks" 
-                    rules={[
-                    { required: true,
-                        message: 'Please choose frameworks', 
-                        whitespace: true }]}
-                    label='Frameworks'>
-                        <Checkbox.Group options={frameworksOptions} onChange={handleFW} />
-                    </Form.Item>
-                    <Form.Item 
-                    name="file_types" 
-                    rules={[
-                    { required: true,
-                        message: 'Please choose files types', 
-                        whitespace: true }]}
+                    <Title level={5}>Frameworks</Title>
+                        {
+                            fwOptions.length > 0 && 
+                            fwOptions.map((type, n) => {
+                                return (
+                                    <Form.Item
+                                    name={type.name}
+                                    key={n}
+                                    label={type.name}>
+                                    <Checkbox.Group required  key={n + 1} options={type.frameworks.map(f => {
+                                        return {label:f.name, value:f.id}
+                                    })} onChange={(value) => {
+                                        console.log(frameworks)
+                                        setFrameworks({...frameworks, [type.name]:value})
+                                        }} />
+                                    </Form.Item>
+                                    
+                                )
+                            })
+                        }
+                    
+                    <Form.Item
+                    name='file_types' 
                     label='Files Included'>
-                        <Checkbox.Group options={filesIncluded} onChange={handleFiles} />
+                        <Checkbox.Group required options={fileOptions.map(f => {
+                            return {label:f.name, value:f.id}
+                        })} onChange={handleFiles} />
                     </Form.Item>
                     <Form.Item 
                     name="desc" 
-                    rules={[
-                    { required: true,
-                        message: 'Please input item describtion', 
-                        whitespace: true }]}
                     label='Describtion'>
-                        <TextArea ref={itemDesc} placeholder='Describtion' />
+                        <TextArea required ref={itemDesc} placeholder='Describtion' />
                     </Form.Item>
                     <Form.Item 
                     name="features" 
-                    rules={[
-                    { required: true,
-                        message: 'Please input item features', 
-                        whitespace: true }]}
                     label='Features'>
-                        <TextArea ref={itemFeatures} placeholder='Features' />
+                        <TextArea required ref={itemFeatures} placeholder='Features' />
                     </Form.Item>
                     <Form.Item 
                     name="demo_url" 
-                    rules={[
-                    { required: true,
-                        message: 'Please input item demo url', 
-                        whitespace: true }]}
                     label='Live Demo URL: (eg. your URL or Google Drive)'>
-                        <Input ref={itemDemoUrl} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
+                        <Input required ref={itemDemoUrl} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
                     <Form.Item 
                     name="test_apk" 
@@ -260,12 +363,12 @@ const UploadItem = (props) => {
                         <Input ref={itemTestApk} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
                     <Form.Item 
-                    name="test_ios" 
+                    name="test_ios"
                     label='iOS Link: (optional)'>
                         <Input ref={itemTestIos} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
                     <Form.Item 
-                    name="youtube_url" 
+                    name="youtube_url"
                     label='YouTube URL: (optional)'>
                         <Input ref={itemYTurl} placeholder='Your Url' addonBefore="http://" addonAfter=".com" />
                     </Form.Item>
@@ -279,7 +382,6 @@ const UploadItem = (props) => {
                 <div style={{display:'flex',flexWrap:'wrap' , justifyContent:'space-evenly', padding:'1rem 0'}}>
                     <div className='dragger'>
                     <Dragger
-                    name='icon'
                     beforeUpload={()=> false}
                     onChange={(info) => setIcon(info.file)}
                     >
@@ -294,7 +396,6 @@ const UploadItem = (props) => {
                     </div>
                     <div className='dragger'>
                     <Dragger 
-                    name='preview'
                     beforeUpload={()=> false}
                     onChange={(info) => setPreview(info.file)}
                     >
@@ -308,6 +409,7 @@ const UploadItem = (props) => {
                     </Dragger>
                     </div>
                 </div>
+                {!query.item &&
                 <div style={{padding:'1rem'}}>
                     <Upload
                     beforeUpload={()=> false}
@@ -328,6 +430,7 @@ const UploadItem = (props) => {
                     </Modal>
      
                 </div>   
+                }
                 </>
             )
         },
@@ -336,7 +439,6 @@ const UploadItem = (props) => {
             content: (
                 <>
                     <Dragger 
-                    name='preview'
                     beforeUpload={()=> false}
                     onChange={(info) => setZip_file(info.file)}
                     style={{padding:'0 0.5rem'}}>
@@ -348,51 +450,60 @@ const UploadItem = (props) => {
                             .zip (Only)
                         </p>
                     </Dragger>
-                    <Form style={{padding:'1rem 0'}} form={form} layout='vertical'>
-                        <Form.Item required  label='File size: (size of .ZIP file in MB)'>
-                            <Input ref={itemSize} placeholder="File Size" />
+                    <Form initialValues={initialValues} style={{padding:'1rem 0'}} form={form} layout='vertical'>
+                        <Form.Item 
+                        name='size' 
+                        label='File size: (size of .ZIP file in MB)'>
+                            <InputNumber required style={{width:'100%'}} ref={itemSize} placeholder="File Size" />
                         </Form.Item>
-                        <Form.Item required  label='Price: (Single Licence)'>
-                            <InputNumber ref={itemPrice} style={{width:'100%'}} />
+                        <Form.Item 
+                        name='price'  
+                        label='Price: (Single Licence)'>
+                            <InputNumber required ref={itemPrice} style={{width:'100%'}} />
                         </Form.Item>
-                        <Form.Item required  label='Price: (Multiple Licence)'>
+                        {/* <Form.Item required  label='Price: (Multiple Licence)'>
                             <InputNumber style={{width:'100%'}} />
-                        </Form.Item>
+                        </Form.Item> */}
                     </Form>
                 </>
             )
         }
     ]
   return (
+    
     <>
-    <Title level={2}>New Item</Title>
-    <div style={{backgroundColor:'#fff', padding:'1.5rem'}}>
-        
-        <Steps current={current}>
-        {steps.map(item => (
-            <Step key={item.title} title={item.title} />
-        ))}
-        </Steps>
-        <div className="steps-content" style={{padding:'1rem 0'}}>{steps[current].content}</div>
-        <div className="steps-action">
-        {current < steps.length - 1 && (
-            <Button htmlType='submit' type="primary" onClick={() => handleSteps('next')}>
-            Next
-            </Button>
-        )}
-        {current === steps.length - 1 && (
-            <Button type="primary" onClick={addItem}>
-            Done
-            </Button>
-        )}
-        {current > 0 && (
-            <Button type='dashed' style={{ margin: '0 8px' }} onClick={() => handleSteps('prev')}>
-            Previous
-            </Button>
-        )}
+        <Title level={2}>{query.item ? 'Edit Item' : 'New Item'}</Title>
+        {initialValues &&
+        <div style={{backgroundColor:'#fff', padding:'1.5rem'}}>
+            
+            <Steps current={current}>
+            {steps.map(item => (
+                <Step key={item.title} title={item.title} />
+            ))}
+            </Steps>
+            <div className="steps-content" style={{padding:'1rem 0'}}>{steps[current].content}</div>
+            <div className="steps-action">
+            {current < steps.length - 1 && (
+                <Button htmlType='submit' type="primary" onClick={() => handleSteps('next')}>
+                Next
+                </Button>
+            )}
+            {current === steps.length - 1 && (
+                <Button type="primary" onClick={addItem}>
+                Done
+                </Button>
+            )}
+            {current > 0 && (
+                <Button type='dashed' style={{ margin: '0 8px' }} onClick={() => handleSteps('prev')}>
+                Previous
+                </Button>
+            )}
+            </div>
         </div>
-    </div>
+        }
+        
     </>
+    
   )
 }
 

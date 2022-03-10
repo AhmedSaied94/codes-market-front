@@ -18,8 +18,6 @@ const Tabs = (props) => {
         console.log('click ', e);
       };
   return (
-    <>
-    {authedUser &&
     <div className='aside'>
         <Card style={{ width: 300 }} loading={loading}>
           <Meta
@@ -88,8 +86,7 @@ const Tabs = (props) => {
             </Menu.Item>      
         </Menu>
     </div>
-    }
-    </>
+
   )
 }
 

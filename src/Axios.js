@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { message } from 'antd';
 
 const baseUrl = 'http://localhost:8000'
 
@@ -14,7 +15,7 @@ export const axiosInstance = axios.create({
 
 export const axiosFetchInstance = axios.create({
     baseURL: baseUrl,
-    timeout: 5000,
+    timeout: 20000,
     headers: {
         Authorization: localStorage.getItem('foxCodes_accessToken')
             ? `Bearer ${localStorage.getItem('foxCodes_accessToken')}`
@@ -28,6 +29,17 @@ export const handleUnauthorized = error => {
     const { response } = error
     const originalRequest = response.config
 
+    if (typeof error === 'undefined') {
+        message.error(
+            `A server/network error 
+            looks like cors may be the problem
+            sorry about this, we will get it fixed shortly`,
+            3
+        );
+        setTimeout(async()=> {
+            await axiosFetchInstance(originalRequest)
+        },3000)
+    }
     if (
         response.status === 401 && 
         response.data.detail === "Authentication credentials were not provided." &&
@@ -53,9 +65,11 @@ export const handleUnauthorized = error => {
             .then(res => {
                 localStorage.setItem('foxCodes_accessToken', res.data.access_token);
                 localStorage.setItem('foxCodes_refreshToken', res.data.refresh_token);
-                originalRequest.defaults.headers['Authorization'] = `Bearer ${res.data.access_token}`;
+                console.log(res.data.access_token)
+                console.log(originalRequest)
+                originalRequest.headers['Authorization'] = `Bearer ${res.data.access_token}`;
+                console.log(originalRequest)
                 return axiosFetchInstance(originalRequest)
-
             })
             .catch(error => console.log(error))
         } else {

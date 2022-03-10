@@ -68,6 +68,7 @@ const MyAccount = (props) => {
             message.success(res.data.success)
         })
         .catch(error => {
+            console.log(error.response)
             if (error.response.status === 401) handleUnauthorized(error)
             else {
                 for (const key in error.response.data) {
@@ -134,6 +135,7 @@ const MyAccount = (props) => {
         axiosFetchInstance.put('/account/update-profile/', data)
         .then(res => {
             message.success(res.data.success)
+            setTimeout(()=> window.location.reload, 1000)
         })
         .catch(error => {
             if (error.response.status === 401) handleUnauthorized(error)

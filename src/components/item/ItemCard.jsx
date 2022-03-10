@@ -1,17 +1,25 @@
 import * as React from 'react'
-import { Card } from 'antd'
+import { Card, Tag } from 'antd'
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../App'
 const { Meta } = Card;
 
-const ItemCard = (props) => {
+
+const ItemCard = ({item, id}) => {
+  const { host } = React.useContext(UserContext)
   return (
-    <Link to={`/item?id=${props.id}`}>
+    <Link to={`/item?id=${id}`}>
+      {host &&
       <Card
         hoverable
-        cover={<img alt="example" src="https://picsum.photos/200/100" />}
+        cover={<img alt="example" src={`${host}${item.preview_img}`} />}
       >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
+        <Meta title={item.name} description={<div style={{display:'flex', justifyContent:'space-between', flexWrap:'wrap'}}>
+          <p>{item.short_describtion}</p>
+          <Tag style={{height:'fit-content'}} color='orange'>{item.price}</Tag>
+        </div>} />
       </Card>
+      }
     </Link>
   )
 }

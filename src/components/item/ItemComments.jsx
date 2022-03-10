@@ -2,33 +2,31 @@ import * as React from 'react'
 import { Comment, Tooltip, Form, Input, Avatar, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import { ItemContext } from '../../pages/ItemPage'
 const { TextArea } = Input
 
 const ItemComments = () => {
     const [submitting, setSubmitting] = React.useState(false)
     const { form } = Form.useForm()
+    const { item } = React.useContext(ItemContext)
 
     const handleComment = e => {
         return
     }
-    const reviews = new Array(5).fill('a')
   return (
     <div style={{backgroundColor:'#fff', padding:'1rem'}}>
-        {reviews.map(i => {
+        {item.reviews.map(review => {
             return (
                 <Comment
-                author={<Link to=''>Han Solo</Link>}
-                avatar={<Avatar src="https://picsum.photos/200/300" alt="Han Solo" />}
+                author={<Link to=''>{review.user}</Link>}
                 content={
                   <p>
-                    We supply a series of design principles, practical patterns and high quality design
-                    resources (Sketch and Axure), to help people create their product prototypes beautifully
-                    and efficiently.
+                    {review.content}
                   </p>
                 }
                 datetime={
                   <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{moment().fromNow()}</span>
+                    <span>{moment().from(review.date)}</span>
                   </Tooltip>
                 }
               />

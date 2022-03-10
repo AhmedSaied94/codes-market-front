@@ -17,10 +17,11 @@ const { Content, Sider } = Layout;
 const Dashboard = (props) => {
     const { authedUser } = React.useContext(UserContext)
 
+    if (!authedUser) window.location.href = '/login'
+
   return (
         <Layout className='main-content'>
             <Content>
-            {authedUser &&
                 <div className="site-card-wrapper">
                     <Row gutter={[16, 16]}>
                     <Col xs={24} sm={12} md={6}>
@@ -45,7 +46,6 @@ const Dashboard = (props) => {
                     </Col>
                     </Row>
                 </div>
-            }
             
             <Layout style={{marginTop:'1rem'}}>
                 <Sider 

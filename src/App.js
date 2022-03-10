@@ -35,7 +35,7 @@ const App = props => {
                 else console.log(error.response)
                 
             })
-        } else setAuthedUser(null) 
+        } else setAuthedUser({}) 
     }, [])
 
     return (
@@ -50,6 +50,7 @@ const App = props => {
             </div>
             <Navbar />
         </Header>
+        {authedUser &&
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/dashboard/*' element={<Dashboard />} />
@@ -58,6 +59,7 @@ const App = props => {
             <Route path='/login' element={<LoginForm />} />
             <Route path='/item' element={<ItemPage />} />
         </Routes>
+        }
         {/* <RegisterForm />
         <Dashboard /> */}
     </Layout>
