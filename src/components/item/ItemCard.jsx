@@ -5,10 +5,10 @@ import { UserContext } from '../../App'
 const { Meta } = Card;
 
 
-const ItemCard = ({item, id}) => {
+const ItemCard = ({item}) => {
   const { host } = React.useContext(UserContext)
   return (
-    <Link to={`/item?id=${id}`}>
+    <Link to={`/item?id=${item.id}`}>
       {host &&
       <Card
         hoverable

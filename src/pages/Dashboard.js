@@ -26,7 +26,7 @@ const Dashboard = (props) => {
                     <Row gutter={[16, 16]}>
                     <Col xs={24} sm={12} md={6}>
                         <Card hoverable title="Credit" bordered={false}>
-                            <Title level={5}>{authedUser.credit}</Title>
+                            <Title level={5}>$ {authedUser.credit}</Title>
                         </Card>
                     </Col>
                     <Col xs={24} sm={12} md={6}>

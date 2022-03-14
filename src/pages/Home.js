@@ -23,8 +23,8 @@ const Home = () => {
         <Col span={24}><Title level={4}>New Items</Title></Col>
             {Items.new_items.map(item => {
                 return (
-                    <Col key={item.id} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
-                        <ItemCard item={item} id={item.id} />
+                    <Col key={`new${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                        <ItemCard item={item} />
                     </Col>
                 )
             })}
@@ -33,7 +33,7 @@ const Home = () => {
             <Col span={24}><Title level={4}>Top Selling</Title></Col>
             {Items.most_selled.map(item => {
                 return (
-                    <Col key={item.id} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                    <Col key={`top${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} id={item.id} />
                     </Col>
                 )

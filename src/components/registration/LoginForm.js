@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './RegisterForm.css';
 import { Form, Input, Button, Checkbox, Layout, message, Alert} from 'antd';
+import { Link } from 'react-router-dom';
 import { axiosInstance } from '../../Axios';
 import { UserContext } from '../../App';
 
@@ -108,7 +109,8 @@ function LoginForm() {
       hasFeedback >
         <Input.Password/>
       </Form.Item>
-        <Form.Item {...tailFormItemLayout} style={{margin:0}}>
+      <Link to='/password-reset'>Forgot your password?</Link>
+        <Form.Item {...tailFormItemLayout} style={{margin:'1rem 0 0'}}>
           <Button className='btn-sub' type='primary' htmlType='submit' >Login</Button>
         </Form.Item>
     </Form>

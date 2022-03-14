@@ -1,114 +1,112 @@
-import * as React from 'react'
-import { Table, Tag, Space } from 'antd';
-import { Typography } from 'antd';
-import { UserContext } from '../../App'
+import * as React from "react";
+import { Table, Tag, Space } from "antd";
+import { Typography } from "antd";
+import { UserContext } from "../../App";
 
 const { Title } = Typography;
 
 const Withdraws = (props) => {
-  const { authedUser } = React.useContext(UserContext)
+  const { authedUser } = React.useContext(UserContext);
 
-    const columns = [
-      {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-        responsive:['sm']
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      responsive: ["sm"],
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Paypal",
+      dataIndex: "paypal",
+      key: "paypal",
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+      responsive: ["sm"],
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      render: (Status) => {
+        let color = Status === "success" ? "green" : "volcano";
+        return (
+          <Tag color={color} key={Status}>
+            {Status.toUpperCase()}
+          </Tag>
+        );
       },
-      {
-        title: 'Date',
-        dataIndex: 'date',
-        key: 'date',
+      responsive: ["sm"],
+    },
+    {
+      title: "A&S",
+      dataIndex: "amountstatus",
+      key: "amountstatus",
+      render: (record) => {
+        let color = record.status === "success" ? "green" : "volcano";
+        return (
+          <React.Fragment>
+            {record.amount}
+            <br />
+            <Tag color={color} key={record.status}>
+              {record.status.toUpperCase()}
+            </Tag>
+          </React.Fragment>
+        );
       },
-      {
-        title: 'Paypal',
-        dataIndex: 'paypal',
-        key: 'paypal',
-      },
-      {
-        title: 'Amount',
-        dataIndex: 'amount',
-        key: 'amount',
-        responsive:['sm']
-      },
-      {
-        title: 'Status',
-        key: 'status',
-        dataIndex: 'status',
-        render: Status => {
+      responsive: ["xs"],
+    },
+  ];
 
-              let color = Status === 'success' ? 'green' : 'volcano'
-              return (
-                <Tag color={color} key={Status}>
-                  {Status.toUpperCase()}
-                </Tag>
-              )
-        },
-        responsive:['sm']
-      },
-      {
-        title:'A&S',
-        dataIndex:'amountstatus',
-        key:'amountstatus',
-        render: (record) => {
-          let color = record.status === 'success' ? 'green' : 'volcano'
-          return (
-            <React.Fragment>
-              {record.amount}
-              <br />
-              <Tag color={color} key={record.status}>
-                {record.status.toUpperCase()}
-              </Tag>
-            </React.Fragment>
-          )
-        },
-        responsive:['xs']
-      },
-
-    ];
-
-    // const data = []
-    // for (let index = 1; index < 6; index++) {
-    //   data.push(        {
-    //     key: index,
-    //     ID: index,
-    //     Date: '2022-02-20',
-    //     Details: 'New York No. 1 Lake Park',
-    //     Amount:'$25',
-    //     Status: 'success',
-    //     amountstatus:{
-    //       amount:'$25',
-    //       status:'success'
-    //     }
-    //   })
-    // }
-    const withdraws = authedUser ? authedUser.withdraws.map(withdraw => {
-      return {
-        key:withdraw.id,
-        id:withdraw.id,
-        data:withdraw.date.substring(0, 10),
-        paypal:withdraw.paypal_email,
-        amount:withdraw.amount,
-        status:withdraw.status,
-        amountstatus: {
-          amount:withdraw.amount,
-          status:withdraw.status
-        }
-      }
-    }) : []
-      
-    
+  // const data = []
+  // for (let index = 1; index < 6; index++) {
+  //   data.push(        {
+  //     key: index,
+  //     ID: index,
+  //     Date: '2022-02-20',
+  //     Details: 'New York No. 1 Lake Park',
+  //     Amount:'$25',
+  //     Status: 'success',
+  //     amountstatus:{
+  //       amount:'$25',
+  //       status:'success'
+  //     }
+  //   })
+  // }
+  const withdraws = authedUser
+    ? authedUser.withdraws.map((withdraw) => {
+        return {
+          key: withdraw.id,
+          id: withdraw.trans_id,
+          date: withdraw.date.substring(0, 10),
+          paypal: withdraw.paypal_email,
+          amount: withdraw.amount,
+          status: withdraw.status,
+          amountstatus: {
+            amount: withdraw.amount,
+            status: withdraw.status,
+          },
+        };
+      })
+    : [];
 
   return (
     <>
-    { authedUser &&
-    <div>
-        <Title level={3}>Withdraws</Title>
-        <Table columns={columns} dataSource={withdraws} />
-    </div>
-    }
+      {authedUser && (
+        <div>
+          <Title level={3}>Withdraws</Title>
+          <Table columns={columns} dataSource={withdraws} />
+        </div>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Withdraws
+export default Withdraws;

@@ -4,16 +4,21 @@ import ItemDetails from '../components/item/ItemDetails'
 import ItemReviews from '../components/item/ItemReviews'
 import ItemComments from '../components/item/ItemComments'
 import ItemPurchase from '../components/item/ItemPurchase'
-import { Layout, Row, Col, Tabs } from 'antd'
+import SimilarItems from '../components/item/SimilarItems'
+import { Layout, Row, Col, Tabs, Typography, Button } from 'antd'
+import { Link } from 'react-router-dom'
 import { axiosFetchInstance } from '../Axios'
 import QueryString from 'query-string'
 import { useLocation } from 'react-router-dom'
+import { UserContext } from '../App'
 const { Content } = Layout
 const { TabPane } = Tabs
+const { Title } = Typography
 export const ItemContext = React.createContext()
 
 const ItemPage = () => { 
     const [item, setItem] = React.useState()
+    const { authedUser, host } = React.useContext(UserContext)
     const location = useLocation()
     const query = QueryString.parse(location.search)
     React.useEffect(()=> {
@@ -42,11 +47,22 @@ const ItemPage = () => {
                     <TabPane tab="Comments" key="comments">
                         <ItemComments />
                     </TabPane>
+                    {authedUser.payments.find(p => p.item === item.name) &&
+                        <TabPane tab="Download" key="download">
+                            <div>
+                                <Link to={`${host}/download/${item.id}`} target='_blank' download></Link>
+                            </div>
+                        </TabPane>
+                    }
                 </Tabs>
             </Col>
             <Col style={{marginTop:'3.75rem'}} xs={24} sm={8}>
                 <ItemPurchase />
             </Col>
+        </Row>
+        <Row style={{marginTop:'1rem'}} gutter={[16,16]}>
+            <Col span={24}><Title level={4}>Similar Items</Title></Col>
+            <SimilarItems />
         </Row>
         </>
         }

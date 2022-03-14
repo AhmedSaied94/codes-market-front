@@ -7,6 +7,9 @@ import Home from './pages/Home';
 import RegisterForm from './components/registration/RegisterForm';
 import LoginForm from './components/registration/LoginForm';
 import Catalog from './pages/Catalog';
+import Profile from './pages/Profile';
+import ResetPW from './pages/ResetPW';
+import ResetPwConfirm from './pages/ResetPwConfirm';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import ItemPage from './pages/ItemPage';
 import { axiosFetchInstance, axiosInstance, handleUnauthorized } from './Axios'
@@ -58,6 +61,9 @@ const App = props => {
             <Route path='/signup' element={<RegisterForm />} />
             <Route path='/login' element={<LoginForm />} />
             <Route path='/item' element={<ItemPage />} />
+            <Route path='/user' element={<Profile />} />
+            <Route path='/password-reset' element={<ResetPW />} />
+            <Route path='/password-reset-confirm' element={<ResetPwConfirm />} />
         </Routes>
         }
         {/* <RegisterForm />
