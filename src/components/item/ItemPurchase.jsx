@@ -137,7 +137,7 @@ const ItemPurchase = () => {
               <Avatar
                 shape="circle"
                 size={64}
-                src={`${host}${item.seller.profile_pic}`}
+                src={`${item.seller.profile_pic}`}
               />
             }
             title={

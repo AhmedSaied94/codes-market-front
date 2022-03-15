@@ -8,7 +8,7 @@ const ResetPW = () => {
     const handleFinish = values => {
         axiosInstance.post('/account/password-reset-request/', {
             "email":values.email,
-            "redirect_url":"http://localhost:3000/password-reset-confirm"
+            "redirect_url":"https://foxsourcecode.herokuapp.com/password-reset-confirm"
         })
         .then(res => {
             message.success('an email sent check your mail inbox you will be redirect to home')

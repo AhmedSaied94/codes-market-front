@@ -61,7 +61,7 @@ const ItemDetails = (props) => {
   return (
     <>
       <div>
-        <Image width="100%" src={`${host}${item.preview_img}`} />
+        <Image width="100%" src={`${item.preview_img}`} />
         <div
           style={{
             display: "flex",
@@ -127,7 +127,7 @@ const ItemDetails = (props) => {
             }}
           >
             {item.screens.map((i, n) => {
-              return <Image key={n} width={100} src={`${host}${i.image}`} />;
+              return <Image key={n} width={100} src={`${i.image}`} />;
             })}
           </div>
         </Card>

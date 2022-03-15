@@ -12,11 +12,7 @@ const ProfileHeader = ({ user }) => {
         <Card style={{ width: "100%" }}>
           <Meta
             avatar={
-              <Avatar
-                shape="circle"
-                size={96}
-                src={`${host}${user.profile_pic}`}
-              />
+              <Avatar shape="circle" size={96} src={`${user.profile_pic}`} />
             }
             title={<Title level={2}>{user.username}</Title>}
             description={user.devtype}
