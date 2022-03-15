@@ -6,7 +6,7 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 ReactDOM.render(
   <PayPalScriptProvider
-  options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID }}
+  options={{ "client-id": 'AaQjU4jJpqm7k4_ihioRawP_h7rTIpIK2rFv1ksbr-3aAKQn0u2lMYgUKACvbjGxWjNA2TwtLCqdqEpd' }}
   >
     <App />
     </PayPalScriptProvider>,
