@@ -24,7 +24,7 @@ const App = props => {
     const [authedUser, setAuthedUser] = React.useState()
     const client_id = "WHRieTI9jGGoct7DpgXXeciVI11tcgX2asJrHZ0Z"
     const client_secret = "wityohIXRQn2ph1TlUO5MhNovgtH8LpEhkooXBQPMYvyT6S6X78vsKeEORvDbJAHemBs4AVBeLrODTvgR49A0Cdfb9W38NC2T5q6sItdbu1kRsGq2vg3UFpZcdwvsNth"
-    const host = 'https://foxsourcecode.herokuapp.com'
+    const host = 'http://52.24.242.40/api'
     React.useMemo(() => {
         if (localStorage.getItem('foxCodes_accessToken')){
             axiosFetchInstance

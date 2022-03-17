@@ -30,6 +30,10 @@ const WithdrawMoney = (props) => {
 
   const handleWithdraw = (values) => {
     console.log(values);
+    if (values.amount > authedUser.credit || values.amount < 30) {
+      message.error("Your credit is not enough for this withdraw");
+      return;
+    }
     const data = JSON.stringify({
       paypal_email: values.paypal_email,
       amount: values.amount,
@@ -38,13 +42,13 @@ const WithdrawMoney = (props) => {
       .post("/payments/create-payout/", data)
       .then((res) => {
         console.log(res.data);
-        window.location.href = "/dashboard/withdraws";
+        message.success(res.data.success);
+        setTimeout(() => (window.location.href = "/dashboard/withdraws"), 1500);
       })
       .catch((error) => {
         error.response.status === 401 || !error.response.status
           ? handleUnauthorized(error)
-          : console.log(error.response);
-        message.error(error.response.data.error);
+          : message.error(error.response.data.error);
       });
   };
 
