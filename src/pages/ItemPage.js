@@ -6,8 +6,8 @@ import ItemComments from '../components/item/ItemComments'
 import ItemPurchase from '../components/item/ItemPurchase'
 import SimilarItems from '../components/item/SimilarItems'
 import { Layout, Row, Col, Tabs, Typography, Button } from 'antd'
+import { axiosFetchInstance, handleUnauthorized } from '../Axios'
 import { Link } from 'react-router-dom'
-import { axiosFetchInstance } from '../Axios'
 import QueryString from 'query-string'
 import { useLocation } from 'react-router-dom'
 import { UserContext } from '../App'
@@ -29,6 +29,43 @@ const ItemPage = () => {
         })
         .catch(error => console.log(error.response))
     }, [])
+
+    const handleDownload = () => {
+        fetch(`${host}/download/${item.id}/`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: localStorage.getItem('foxCodes_accessToken')
+              ? `Bearer ${localStorage.getItem('foxCodes_accessToken')}`
+              : null,
+
+            },
+          })
+          .then((response) => response.blob())
+          .then((blob) => {
+            // Create blob link to download
+            console.log(blob)
+            const url = window.URL.createObjectURL(
+              new Blob([blob]),
+            );
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute(
+              'download',
+              `${item.name}.zip`,
+            );
+        
+            // Append to html link element page
+            document.body.appendChild(link);
+        
+            // Start download
+            link.click();
+        
+            // Clean up and remove the link
+            link.parentNode.removeChild(link);
+          });
+    }
+
   return (
     <Content className='main-content'>
         <ItemContext.Provider value={{item, setItem}}>
@@ -47,10 +84,12 @@ const ItemPage = () => {
                     <TabPane tab="Comments" key="comments">
                         <ItemComments />
                     </TabPane>
-                    {authedUser.payments.find(p => p.item === item.name) &&
+                    {authedUser.payments && authedUser.payments.find(p => p.item === item.name) &&
                         <TabPane tab="Download" key="download">
                             <div>
-                                <Link to={`${host}/download/${item.id}`} target='_blank' download></Link>
+                                
+                                    <Button onClick={handleDownload} type='primary'>Download Code</Button>
+                                
                             </div>
                         </TabPane>
                     }

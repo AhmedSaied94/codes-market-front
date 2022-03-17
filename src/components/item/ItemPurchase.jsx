@@ -25,7 +25,7 @@ const ItemPurchase = () => {
   const [ftypes, setFtypes] = React.useState();
   React.useEffect(() => {
     let ft = new Set();
-    ft = item.frameworks.map((f) => f.ftype);
+    item.frameworks.map((f) => ft.add(f.ftype));
     setFtypes([...ft]);
   }, [item]);
   const licenseChange = (value) => {
@@ -38,7 +38,7 @@ const ItemPurchase = () => {
       > */}
       <div className="site-card-border-less-wrapper">
         <Toaster position="top-center" />
-        <Card title="Stripe" bordered={true} style={{ width: "100%" }}>
+        <Card title="Paypal" bordered={true} style={{ width: "100%" }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Form.Item required>
               <Select placeholder="License..." onChange={licenseChange}>

@@ -22,8 +22,8 @@ export const UserContext = React.createContext()
 const App = props => {
 
     const [authedUser, setAuthedUser] = React.useState()
-    const client_id = "FL7ixHnVGK1BTP36HsZLaphKNI9dt8FPTepS9JLI"
-    const client_secret = "72XySSrkywbtjMy6XBa3YDFBhgE6L4QyBevwUPfy4G7tU4cOGx4EmP1Gga2vihHRR9FbR0l7Wy8TLU9rgxYHpDWDr5F2sDt6jG6HKkimjLM1RwcijU8aCOfpsQwIOHGn"
+    const client_id = "WHRieTI9jGGoct7DpgXXeciVI11tcgX2asJrHZ0Z"
+    const client_secret = "wityohIXRQn2ph1TlUO5MhNovgtH8LpEhkooXBQPMYvyT6S6X78vsKeEORvDbJAHemBs4AVBeLrODTvgR49A0Cdfb9W38NC2T5q6sItdbu1kRsGq2vg3UFpZcdwvsNth"
     const host = 'http://localhost:8000'
     React.useMemo(() => {
         if (localStorage.getItem('foxCodes_accessToken')){
