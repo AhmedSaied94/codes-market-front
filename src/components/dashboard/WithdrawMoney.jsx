@@ -35,7 +35,7 @@ const WithdrawMoney = (props) => {
       return;
     }
     const data = JSON.stringify({
-      paypal_email: values.paypal_email,
+      paypal_email: values.paypal_email.toLowerCase(),
       amount: values.amount,
     });
     axiosFetchInstance

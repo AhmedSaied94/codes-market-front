@@ -55,7 +55,11 @@ const MyAccount = (props) => {
 
   const submitMyAccount = (values) => {
     const data = JSON.stringify({
+<<<<<<< HEAD
       email: values.email,
+=======
+      email: values.email.toLowerCase(),
+>>>>>>> master
       username: values.username,
       fullname: values.fullname,
     });
@@ -85,7 +89,11 @@ const MyAccount = (props) => {
       dev_exp: values.dev_exp,
       frameworks: values.frameworks,
       operation_systems: values.operation_systems,
+<<<<<<< HEAD
       public_email: values.public_email,
+=======
+      public_email: values.public_email.toLowerCase(),
+>>>>>>> master
     });
     axiosFetchInstance
       .put("/account/update-profile/", data)

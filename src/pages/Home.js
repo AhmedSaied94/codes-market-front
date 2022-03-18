@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ItemCard from '../components/item/ItemCard';
-import { Layout, Row, Col, Typography, Spin } from 'antd'
+import { Layout, Row, Col, Typography, Spin, Image } from 'antd'
 import { axiosFetchInstance, handleUnauthorized } from '../Axios'
 const { Content } = Layout;
 const { Title } = Typography;
@@ -19,7 +19,12 @@ const Home = () => {
     <Content className='main-content'>
         {Items ?
         <>
-        <Row gutter={16}>
+        <Row>
+            <Col span={24}>
+                <Image style={{border:'10px solid #fff', borderRadius:'5px'}} width="100%" src={require('../images/home.png')} />
+            </Col>
+        </Row>
+        <Row gutter={16} style={{marginTop:'2rem'}}>
         <Col span={24}><Title level={4}>New Items</Title></Col>
             {Items.new_items.map(item => {
                 return (
@@ -29,7 +34,7 @@ const Home = () => {
                 )
             })}
         </Row>
-        <Row gutter={16}>
+        <Row gutter={16} style={{marginTop:'2rem'}}>
             <Col span={24}><Title level={4}>Top Selling</Title></Col>
             {Items.most_selled.map(item => {
                 return (
