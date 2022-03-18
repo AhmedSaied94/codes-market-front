@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-const baseUrl = 'https://api-foxsourcecode.herokuapp.com'
+const baseUrl = 'http://52.24.242.40/api'
 
 export const axiosInstance = axios.create({
     baseURL: baseUrl,
