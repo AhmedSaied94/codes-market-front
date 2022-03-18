@@ -8,7 +8,7 @@ const ResetPW = () => {
     const handleFinish = values => {
         axiosInstance.post('/account/password-reset-request/', {
             "email":values.email,
-            "redirect_url":"http://http://44.229.203.159/password-reset-confirm"
+            "redirect_url":"http://44.229.203.159/password-reset-confirm"
         })
         .then(res => {
             message.success('an email sent check your mail inbox you will be redirect to home')
