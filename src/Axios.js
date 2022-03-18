@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-const baseUrl = 'http://52.24.242.40/api'
+const baseUrl = 'http://http://44.229.203.159/api'
 
 export const axiosInstance = axios.create({
     baseURL: baseUrl,
