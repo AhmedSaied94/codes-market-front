@@ -23,7 +23,7 @@ const Tabs = (props) => {
     <div className="aside">
       <Card style={{ width: 300 }} loading={loading}>
         <Meta
-          avatar={<Avatar size={64} src={`${authedUser.profile_pic}`} />}
+          avatar={<Avatar size={64} src={`${host}${authedUser.profile_pic}`} />}
           title={`Hi ${authedUser.username}`}
           description={`Joined ${authedUser.join_date.substring(0, 10)}`}
           className="card"

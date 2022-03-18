@@ -50,7 +50,7 @@ const MyAccount = (props) => {
   }, []);
 
   React.useEffect(() => {
-    authedUser && setImgUrl(`${authedUser.profile_pic}`);
+    authedUser && setImgUrl(`${host}${authedUser.profile_pic}`);
   }, [authedUser, host]);
 
   const submitMyAccount = (values) => {

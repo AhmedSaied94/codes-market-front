@@ -104,7 +104,7 @@ const Myitems = (props) => {
       dataIndex: "logo",
       key: "logo",
       render: (img) => {
-        return <Avatar src={`${img}`} />;
+        return <Avatar src={`${host}${img}`} />;
       },
       responsive: ["sm"],
     },

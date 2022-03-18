@@ -11,7 +11,7 @@ const ItemCard = ({ item }) => {
       {host && (
         <Card
           hoverable
-          cover={<img alt="example" src={`${item.preview_img}`} />}
+          cover={<img alt="example" src={`${host}${item.preview_img}`} />}
         >
           <Meta
             title={item.name}
