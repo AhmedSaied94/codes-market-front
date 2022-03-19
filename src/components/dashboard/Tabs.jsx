@@ -72,7 +72,7 @@ const Tabs = (props) => {
             <Link to="myitems">My Items</Link>
           </Menu.Item>
           <Menu.Item className="tab-item" key="downloads">
-            <Link to="downloads">Downloads</Link>
+            <Link to="payments">Downloads</Link>
           </Menu.Item>
         </SubMenu>
         <Menu.Item className="tab-item" key="wishlist">

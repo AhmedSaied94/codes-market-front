@@ -54,6 +54,7 @@ const UploadItem = (props) => {
   const itemTestIos = React.useRef();
   const itemYTurl = React.useRef();
   const itemPrice = React.useRef();
+  const itemSize = React.useRef();
   const fileUrl = React.useRef();
   const location = useLocation();
   const query = QueryString.parse(location.search);
@@ -139,7 +140,8 @@ const UploadItem = (props) => {
       test_apk: productDetails.test_apk,
       test_ios: productDetails.test_ios,
       youtube_url: productDetails.youtube_url,
-      size: Math.ceil(zip_file.size / 1024 / 1024),
+      // size: Math.ceil(zip_file.size / 1024 / 1024),
+      size: itemSize.current.value,
       price: itemPrice.current.value,
       file_url: fileUrl.current.props.value,
       file_types,
@@ -521,11 +523,13 @@ const UploadItem = (props) => {
               <InputNumber
                 required
                 style={{ width: "100%" }}
-                placeholder={
-                  zip_file
-                    ? `${Math.ceil(zip_file.size / 1024 / 1024)} MB`
-                    : "File Size"
-                }
+                ref={itemSize}
+                placeholder="File Size"
+                // placeholder={
+                //   zip_file
+                //     ? `${Math.ceil(zip_file.size / 1024 / 1024)} MB`
+                //     : "File Size"
+                // }
               />
             </Form.Item>
 

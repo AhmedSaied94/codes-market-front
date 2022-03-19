@@ -60,7 +60,10 @@ const Dashboard = (props) => {
                     <Layout style={{ padding: '0 0 0 2rem' }}>
                         <Content className="dash-content">
                                 <Routes>
-                                {/* <Route path='/' element={<DashboardCom />} /> */}
+                                <Route path='' element={<>
+                                    <Myitems view='myitems' />
+                                    <Payments />
+                                </>} />
                                 <Route path='/payments' element={<Payments />} />
                                 <Route path='/earnings' element={<Earnings />} />
                                 <Route path='/myitems/*' element={<Myitems view='myitems' />} />
