@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { message } from 'antd';
 
-const baseUrl = 'http://143.244.169.184/api'
+const baseUrl = 'https://foxsourcecode.com/api'
 
 export const axiosInstance = axios.create({
     baseURL: baseUrl,
