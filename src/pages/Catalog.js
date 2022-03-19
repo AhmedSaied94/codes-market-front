@@ -10,7 +10,7 @@ const { Sider, Content } = Layout;
 const Catalog = (props) => {
     const [items, setItems] = React.useState()
     const [catigories, setCatigories] = React.useState()
-    const Location = useLocation()
+    const location = useLocation()
     const query = QueryString.parse(location.search)
     React.useEffect(()=> {
         axiosFetchInstance.get('/catigories/')
