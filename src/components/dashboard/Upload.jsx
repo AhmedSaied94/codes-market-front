@@ -44,7 +44,7 @@ const UploadItem = (props) => {
   const [subcatigory, setSubcatigory] = React.useState("");
   const [frameworks, setFrameworks] = React.useState([]);
   const [file_types, setFile_types] = React.useState("");
-  const [zip_file, setZip_file] = React.useState();
+  // const [zip_file, setZip_file] = React.useState();
   const itemName = React.useRef();
   const itemShortDesc = React.useRef();
   const itemDesc = React.useRef();
@@ -54,6 +54,7 @@ const UploadItem = (props) => {
   const itemTestIos = React.useRef();
   const itemYTurl = React.useRef();
   const itemPrice = React.useRef();
+  const fileUrl = React.useRef();
   const location = useLocation();
   const query = QueryString.parse(location.search);
 
@@ -86,6 +87,7 @@ const UploadItem = (props) => {
             size: item.size,
             features: item.featurs,
             price: item.price,
+            file_url: item.file_url,
           });
         })
         .catch((error) => {
@@ -101,7 +103,7 @@ const UploadItem = (props) => {
     let data;
     const main = new FormData();
     try {
-      main.append("zip_file", zip_file, zip_file.name);
+      // main.append("zip_file", zip_file, zip_file.name);
       main.append("icon_img", icon, icon.name);
       main.append("preview_img", preview, preview.name);
 
@@ -139,6 +141,7 @@ const UploadItem = (props) => {
       youtube_url: productDetails.youtube_url,
       size: Math.ceil(zip_file.size / 1024 / 1024),
       price: itemPrice.current.value,
+      file_url: fileUrl.current.props.value,
       file_types,
       frameworks: nf,
     };
@@ -489,7 +492,7 @@ const UploadItem = (props) => {
       title: "Files & Pricing",
       content: (
         <>
-          <Dragger
+          {/* <Dragger
             beforeUpload={() => false}
             onChange={(info) => setZip_file(info.file)}
             style={{ padding: "0 0.5rem" }}
@@ -499,13 +502,21 @@ const UploadItem = (props) => {
             </p>
             <p className="ant-upload-text">Click or drag file to upload zip</p>
             <p className="ant-upload-hint">.zip (Only)</p>
-          </Dragger>
+          </Dragger> */}
           <Form
             initialValues={initialValues}
             style={{ padding: "1rem 0" }}
             form={form}
             layout="vertical"
           >
+            <Form.Item name="file_url" label="Source Download Url">
+              <Input
+                ref={fileUrl}
+                placeholder="example https://google.com"
+                addonBefore="http://"
+                addonAfter=".com"
+              />
+            </Form.Item>
             <Form.Item name="size" label="File size: (size of .ZIP file in MB)">
               <InputNumber
                 required

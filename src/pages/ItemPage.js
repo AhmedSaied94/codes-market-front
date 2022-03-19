@@ -41,18 +41,18 @@ const ItemPage = () => {
 
             },
           })
-          .then((response) => response.blob())
-          .then((blob) => {
+          .then((response) => response.json())
+          .then((data) => {
             // Create blob link to download
-            console.log(blob)
-            const url = window.URL.createObjectURL(
-              new Blob([blob]),
-            );
+            // console.log(blob)
+            // const url = window.URL.createObjectURL(
+            //   new Blob([blob]),
+            // );
             const link = document.createElement('a');
-            link.href = url;
+            link.href = data.url;
             link.setAttribute(
-              'download',
-              `${item.name}.zip`,
+              'blank',
+            //   `${item.name}.zip`,
             );
         
             // Append to html link element page

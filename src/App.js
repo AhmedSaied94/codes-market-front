@@ -1,6 +1,6 @@
 import * as React from 'react';
 import 'antd/dist/antd.min.css';
-import { Layout } from 'antd';
+import { Layout, Image } from 'antd';
 import Navbar from './components/navbar/Navbar';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -24,7 +24,7 @@ const App = props => {
     const [authedUser, setAuthedUser] = React.useState()
     const client_id = "WHRieTI9jGGoct7DpgXXeciVI11tcgX2asJrHZ0Z"
     const client_secret = "wityohIXRQn2ph1TlUO5MhNovgtH8LpEhkooXBQPMYvyT6S6X78vsKeEORvDbJAHemBs4AVBeLrODTvgR49A0Cdfb9W38NC2T5q6sItdbu1kRsGq2vg3UFpZcdwvsNth"
-    const host = 'https://foxsourcecode.com/api'
+    const host = 'https://foxsourcecode.com'
     React.useMemo(() => {
         if (localStorage.getItem('foxCodes_accessToken')){
             axiosFetchInstance
@@ -53,6 +53,7 @@ const App = props => {
             </div>
             <Navbar />
         </Header>
+        <Image preview={false} style={{border:'10px solid #fff', borderRadius:'5px', width:'100%'}} width="100%" src={require('../images/home.png')} />
         {authedUser &&
         <Routes>
             <Route path='/' element={<Home />} />

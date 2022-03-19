@@ -19,11 +19,10 @@ const Home = () => {
     <Content className='main-content'>
         {Items ?
         <>
-        <Row>
+        {/* <Row>
             <Col span={24}>
-                <Image style={{border:'10px solid #fff', borderRadius:'5px'}} width="100%" src={require('../images/home.png')} />
             </Col>
-        </Row>
+        </Row> */}
         <Row gutter={16} style={{marginTop:'2rem'}}>
         <Col span={24}><Title level={4}>New Items</Title></Col>
             {Items.new_items.map(item => {
@@ -37,6 +36,16 @@ const Home = () => {
         <Row gutter={16} style={{marginTop:'2rem'}}>
             <Col span={24}><Title level={4}>Top Selling</Title></Col>
             {Items.most_selled.map(item => {
+                return (
+                    <Col key={`top${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                        <ItemCard item={item} id={item.id} />
+                    </Col>
+                )
+            })}
+        </Row>
+        <Row gutter={16} style={{marginTop:'2rem'}}>
+            <Col span={24}><Title level={4}>Most Liked</Title></Col>
+            {Items.most_liked.map(item => {
                 return (
                     <Col key={`top${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} id={item.id} />
