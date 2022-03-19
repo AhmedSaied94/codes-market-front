@@ -34,9 +34,8 @@ const WithdrawMoney = (props) => {
       message.error("Your credit is not enough for this withdraw");
       return;
     }
-    const email = values.paypal_email;
     const data = JSON.stringify({
-      paypal_email: email.toLowerCase(),
+      paypal_email: values.paypal_mail.toLowerCase(),
       amount: values.amount,
     });
     axiosFetchInstance
