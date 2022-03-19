@@ -53,7 +53,6 @@ const App = props => {
             </div>
             <Navbar />
         </Header>
-        <Image preview={false} style={{border:'10px solid #fff', borderRadius:'5px', width:'100%'}} width="100%" src={require('./images/home.png')} />
         {authedUser &&
         <Routes>
             <Route path='/' element={<Home />} />

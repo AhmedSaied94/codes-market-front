@@ -16,6 +16,8 @@ const Home = () => {
     }, [])
 
   return (
+    <>
+    <Image preview={false} style={{border:'10px solid #fff', borderRadius:'5px', width:'100%'}} width="100%" src={require('./images/home.png')} />
     <Content className='main-content'>
         {Items ?
         <>
@@ -58,6 +60,7 @@ const Home = () => {
         <Spin style={{margin:'5rem 48%'}} size="large" />
         }
     </Content>
+    </>
   )
 }
 
