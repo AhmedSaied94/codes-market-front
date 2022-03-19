@@ -48,8 +48,9 @@ function LoginForm() {
   }
 
   const onFinish =(values)=>{
+    const email = values.email
     const data = JSON.stringify({
-      username: values.email.toLowerCase(),
+      username: email.toLowerCase(),
       password: values.password,
       client_id,
       client_secret,

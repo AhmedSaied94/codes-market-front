@@ -42,9 +42,9 @@ function RegisterForm() {
   }
 
   const onFinish =(values)=>{
-
+    const email = values.email
     const user = JSON.stringify({
-      email:values.email.toLowerCase(),
+      email:email.toLowerCase(),
       username:values.username,
       fullname:values.fullname,
       password:values.password
