@@ -1,13 +1,16 @@
 import * as React from 'react'
 import ItemCard from '../components/item/ItemCard';
-import { Layout, Row, Col, Typography, Spin, Image } from 'antd'
+import { Layout, Row, Col, Typography, Spin, Image, Input, Button } from 'antd'
 import { axiosFetchInstance, handleUnauthorized } from '../Axios'
 const { Content } = Layout;
 const { Title } = Typography;
+const { Search } = Input
 
 const Home = () => {
     const [Items, setItems] = React.useState()
-
+    const onSearch = value => {
+        window.location.href = `/catalog?search=${value}`
+    }
 
     React.useEffect(()=> {
         axiosFetchInstance.get('/')
@@ -17,7 +20,12 @@ const Home = () => {
 
   return (
     <>
+    <div style={{position:'relative'}}>
     <Image preview={false} style={{border:'10px solid #fff', borderRadius:'5px', width:'100%'}} width="100%" src={require('../images/home.png')} />
+    <div style={{position:'absolute', top:'10%', left:'10%'}}>
+        <Search placeholder="search for items" onSearch={onSearch} style={{ width: 200 }} />
+    </div>
+    </div>
     <Content className='main-content'>
         {Items ?
         <>
