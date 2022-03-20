@@ -17,13 +17,9 @@ const Profile = () => {
     React.useEffect(()=> {
         axiosFetchInstance.get(`/account/user-details/${query.id}/`)
         .then(res => {
-            console.log(res.data)
-            if (res.data.id === autheduser.id ) window.location.href = '/dashboard'
             setUser(res.data)
         })
         .catch(error => {
-            console.log(error)
-            console.log(error.respone)
             !error.response || error.response.status === 401 ? 
             handleUnauthorized(error) :
             message.error(error.response.data.error, 5)
