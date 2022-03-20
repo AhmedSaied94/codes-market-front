@@ -42,7 +42,7 @@ const ItemCard = ({ item }) => {
         )}
       </Link>
       <div style={{ position: "absolute", top: "3%", right: "3%" }}>
-        <Image src={require("../../images/item_card.ico")} />
+        <Image preview={false} src={require("../../images/item_card.ico")} />
       </div>
     </div>
   );

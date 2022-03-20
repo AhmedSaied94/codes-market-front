@@ -18,7 +18,7 @@ const Catalog = (props) => {
         axiosFetchInstance('/items/all/')
         .then(res => {
             query.search ? 
-            setItems(res.data.filter(i => i.name.includes(query.search)))
+            setItems(res.data.filter(i => i.name.toLowerCase().includes(query.search.toLowerCase())))
             :
             setItems(res.data)}
             )

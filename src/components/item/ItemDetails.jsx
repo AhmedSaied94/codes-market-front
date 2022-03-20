@@ -68,7 +68,7 @@ const ItemDetails = (props) => {
             src={`${host}${item.preview_img}`}
           />
           <div style={{ position: "absolute", bottom: "5%", right: "5%" }}>
-            <Image src={require("../../images/item.ico")} />
+            <Image preview={false} src={require("../../images/item.ico")} />
           </div>
         </div>
         <div
