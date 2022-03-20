@@ -18,7 +18,7 @@ const Profile = () => {
         axiosFetchInstance.get(`/account/user-details/${query.id}/`)
         .then(res => {
             console.log(res.data)
-            if (res.data === autheduser ) window.location.href = '/dashboard'
+            if (res.data.id === autheduser.id ) window.location.href = '/dashboard'
             setUser(res.data)
         })
         .catch(error => {

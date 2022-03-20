@@ -50,10 +50,11 @@ const ItemPage = () => {
             // );
             const link = document.createElement('a');
             link.href = data.url;
-            link.setAttribute(
-              'blank',
-            //   `${item.name}.zip`,
-            );
+            // link.setAttribute(
+            //   target,'blank'
+            // //   `${item.name}.zip`,
+            // );
+            link.target='blank'
         
             // Append to html link element page
             document.body.appendChild(link);

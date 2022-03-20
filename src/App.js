@@ -13,8 +13,9 @@ import ResetPwConfirm from './pages/ResetPwConfirm';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import ItemPage from './pages/ItemPage';
 import { axiosFetchInstance, axiosInstance, handleUnauthorized } from './Axios'
+import { FacebookFilled, InstagramFilled, TwitterCircleFilled, MailFilled } from '@ant-design/icons'
 
-const { Header } = Layout;
+const { Header, Footer } = Layout;
 export const UserContext = React.createContext()
 
 
@@ -66,6 +67,14 @@ const App = props => {
             <Route path='/password-reset-confirm' element={<ResetPwConfirm />} />
         </Routes>
         }
+        <Footer style={{ textAlign: 'center' }}>
+            <div style={{display:'flex', justifyContent:'space-around'}}>
+                <p>Copyright © 2022 ❤️ Foxsourcecode.com — All Rights Reserved</p>
+                <a><FacebookFilled /></a>
+                <a><InstagramFilled /></a>
+                <a><TwitterCircleFilled /></a>
+                <a><MailFilled /></a>
+            </div></Footer>
         {/* <RegisterForm />
         <Dashboard /> */}
     </Layout>

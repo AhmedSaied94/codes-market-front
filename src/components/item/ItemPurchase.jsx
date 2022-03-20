@@ -118,16 +118,16 @@ const ItemPurchase = () => {
             {item.Last_update}
           </Descriptions.Item>
           <Descriptions.Item span={3} label="Files Included">
-            {item.file_types.map((f) => f.name).join(" ")}
+            {item.file_types.map((f) => f.name).join(", ")}
           </Descriptions.Item>
           {ftypes &&
             ftypes.map((f, n) => {
               return (
-                <Descriptions.Item key={n} span={3} label={`Framework ${f}`}>
+                <Descriptions.Item key={n} span={3} label={f}>
                   {item.frameworks
                     .filter((fr) => fr.ftype === f)
                     .map((fr) => fr.name)
-                    .join(" ")}
+                    .join(", ")}
                 </Descriptions.Item>
               );
             })}

@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <>
     <div style={{position:'relative'}}>
-    <Image preview={false} style={{border:'10px solid #fff', borderRadius:'5px', width:'100%'}} width="100%" src={require('../images/home.png')} />
+    <Image preview={false} style={{border:'10px solid #fff', borderRadius:'5px', width:'100%'}} width="100%" src={require('../images/home.jpeg')} />
     <div style={{position:'absolute', top:'23%', left:'5%'}}>
         <Search placeholder="search for items" onSearch={onSearch} style={{ width: '100%' }} />
     </div>

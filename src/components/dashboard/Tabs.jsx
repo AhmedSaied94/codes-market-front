@@ -3,9 +3,11 @@ import { Card, Avatar } from "antd";
 import "./Tabs.css";
 import { Menu } from "antd";
 import {
-  AppstoreOutlined,
-  MailOutlined,
+  ProfileOutlined,
   SettingOutlined,
+  DollarOutlined,
+  AppstoreOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
@@ -37,16 +39,24 @@ const Tabs = (props) => {
         mode="inline"
         className="tab-menu"
       >
-        <Menu.Item className="tab-item" key="dashboard">
+        <Menu.Item
+          className="tab-item"
+          key="dashboard"
+          icon={<ProfileOutlined />}
+        >
           <Link to="">Dashboard</Link>
         </Menu.Item>
-        <Menu.Item className="tab-item" key="myaccount">
+        <Menu.Item
+          className="tab-item"
+          key="myaccount"
+          icon={<SettingOutlined />}
+        >
           <Link to="myaccount">My Account</Link>
         </Menu.Item>
         <SubMenu
           className="sub-tab"
           key="transactions"
-          icon={<AppstoreOutlined />}
+          icon={<DollarOutlined />}
           title="Transactions"
         >
           <Menu.Item className="tab-item" key="payments">
@@ -65,7 +75,7 @@ const Tabs = (props) => {
         <SubMenu
           className="sub-tab"
           key="items"
-          icon={<SettingOutlined />}
+          icon={<AppstoreOutlined />}
           title="Items"
         >
           <Menu.Item className="tab-item" key="myitems">
@@ -75,7 +85,7 @@ const Tabs = (props) => {
             <Link to="payments">Downloads</Link>
           </Menu.Item>
         </SubMenu>
-        <Menu.Item className="tab-item" key="wishlist">
+        <Menu.Item className="tab-item" key="wishlist" icon={<HeartOutlined />}>
           <Link to="wishlist">Wishlist</Link>
         </Menu.Item>
       </Menu>

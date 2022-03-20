@@ -21,7 +21,7 @@ const Catalog = (props) => {
             else if (query.filter){
                 switch(query.filter){
                     case 'new_items':
-                        setItems(res.data)
+                        setItems(res.data.reverse())
                         break;
                     case 'most_selled':
                         setItems(res.data.sort((a, b)=>{
