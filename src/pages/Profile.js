@@ -22,6 +22,8 @@ const Profile = () => {
             setUser(res.data)
         })
         .catch(error => {
+            console.log(error)
+            console.log(error.respone)
             !error.response || error.response.status === 401 ? 
             handleUnauthorized(error) :
             message.error(error.response.data.error, 5)
