@@ -31,40 +31,55 @@ const ItemPage = () => {
     }, [])
 
     const handleDownload = () => {
-        fetch(`${host}/download/${item.id}/`,{
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: localStorage.getItem('foxCodes_accessToken')
-              ? `Bearer ${localStorage.getItem('foxCodes_accessToken')}`
-              : null,
-
-            },
-          })
-          .then((response) => response.json())
-          .then((data) => {
-            // Create blob link to download
-            // console.log(blob)
-            // const url = window.URL.createObjectURL(
-            //   new Blob([blob]),
-            // );
+        axiosFetchInstance.get(`/download/${item.id}`)
+        .then(res => {
+            console.log(res.data)
             const link = document.createElement('a');
-            link.href = data.url;
-            // link.setAttribute(
-            //   target,'blank'
-            // //   `${item.name}.zip`,
-            // );
+            link.href = res.data.url;
             link.target='blank'
-        
-            // Append to html link element page
             document.body.appendChild(link);
-        
-            // Start download
             link.click();
-        
-            // Clean up and remove the link
             link.parentNode.removeChild(link);
-          });
+
+        })
+        .catch(error => {
+            console.log(error.response)
+            handleUnauthorized(error)
+        })
+        // fetch(`${host}/download/${item.id}/`,{
+        //     method: 'GET',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       Authorization: localStorage.getItem('foxCodes_accessToken')
+        //       ? `Bearer ${localStorage.getItem('foxCodes_accessToken')}`
+        //       : null,
+
+        //     },
+        //   })
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     // Create blob link to download
+        //     // console.log(blob)
+        //     // const url = window.URL.createObjectURL(
+        //     //   new Blob([blob]),
+        //     // );
+        //     const link = document.createElement('a');
+        //     link.href = data.url;
+        //     // link.setAttribute(
+        //     //   target,'blank'
+        //     // //   `${item.name}.zip`,
+        //     // );
+        //     link.target='blank'
+        
+        //     // Append to html link element page
+        //     document.body.appendChild(link);
+        
+        //     // Start download
+        //     link.click();
+        
+        //     // Clean up and remove the link
+        //     link.parentNode.removeChild(link);
+        //   });
     }
 
   return (
