@@ -31,7 +31,7 @@ const ItemCard = ({ item }) => {
                   }}
                 >
                   <p>Curent Price</p>
-                  {item.discount_price && (
+                  {item.discount_price ? (
                     <>
                       <Tag style={{ height: "fit-content" }} color="success">
                         ${item.discount_price}
@@ -39,11 +39,11 @@ const ItemCard = ({ item }) => {
                       <Tag style={{ height: "fit-content" }} color="orange">
                         old ${item.price}
                       </Tag>
-                      :
-                      <Tag style={{ height: "fit-content" }} color="orange">
-                        ${item.price}
-                      </Tag>
                     </>
+                  ) : (
+                    <Tag style={{ height: "fit-content" }} color="orange">
+                      ${item.price}
+                    </Tag>
                   )}
                 </div>
               }
