@@ -80,15 +80,15 @@ const MyAccount = (props) => {
       });
   };
   const submitDevDetails = (values) => {
-    console.log(values);
     const data = JSON.stringify({
       devtype: values.devtype,
       dev_exp: values.dev_exp,
       frameworks: values.frameworks,
       operation_systems: values.operation_systems,
-      public_email: values.public_email.toLowerCase(),
+      public_email: values.public_email
+        ? values.public_email.toLowerCase()
+        : "",
     });
-    console.log(data);
     axiosFetchInstance
       .put("/account/update-profile/", data)
       .then((res) => {
