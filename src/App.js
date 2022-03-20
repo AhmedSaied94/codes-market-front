@@ -69,10 +69,10 @@ const App = props => {
         }
         <Footer style={{ textAlign: 'center', backgroundColor:'#F7D7B4' }}>
                 <p>Copyright © 2022 ❤️ Foxsourcecode.com — All Rights Reserved</p>
-                <a href='https://www.facebook.com/foxsourcecod' className='footer-link'><FacebookFilled /></a>
-                <a href='https://www.instagram.com/foxsorcecode' className='footer-link'><InstagramFilled /></a>
-                <a href='https://twitter.com/foxsourcecode' className='footer-link'><TwitterCircleFilled /></a>
-                <a href='mailto:support@foxsourcecode.com' className='footer-link'><MailFilled /></a>
+                <a target='_blank' href='https://www.facebook.com/foxsourcecod' className='footer-link'><FacebookFilled /></a>
+                <a target='_blank' href='https://www.instagram.com/foxsorcecode' className='footer-link'><InstagramFilled /></a>
+                <a target='_blank' href='https://twitter.com/foxsourcecode' className='footer-link'><TwitterCircleFilled /></a>
+                <a target='_blank' href='mailto:support@foxsourcecode.com' className='footer-link'><MailFilled /></a>
         </Footer>
         {/* <RegisterForm />
         <Dashboard /> */}
