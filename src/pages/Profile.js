@@ -10,14 +10,15 @@ const { Content } = Layout
 const { Title } = Typography
 
 const Profile = () => {
-    const { autheduser } = React.useContext(UserContext)
+    const { authedUser } = React.useContext(UserContext)
     const location = useLocation()
     const query = QueryString.parse(location.search)
     const [user, setUser] = React.useState()
     React.useEffect(()=> {
         axiosFetchInstance.get(`/account/user-details/${query.id}/`)
         .then(res => {
-            setUser(res.data)
+            res.data === authedUser ? window.location.href = '/dashboard'
+            : setUser(res.data)
         })
         .catch(error => {
             !error.response || error.response.status === 401 ? 
