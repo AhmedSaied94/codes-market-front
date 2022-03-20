@@ -221,6 +221,15 @@ const UploadItem = (props) => {
         console.log(data);
         setProductDetails(data);
       }
+      if (
+        catigory === "" ||
+        subcatigory === "" ||
+        file_types === "" ||
+        frameworks.length < 1
+      ) {
+        message.error("please fill all fields", 5);
+        return;
+      }
       setCurrent(current + 1);
       console.log(frameworks);
     } else setCurrent(current - 1);

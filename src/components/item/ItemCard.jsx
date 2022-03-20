@@ -11,8 +11,15 @@ const ItemCard = ({ item }) => {
       <Link to={`/item?id=${item.id}`}>
         {host && (
           <Card
+            style={{ height: "300px" }}
             hoverable
-            cover={<img alt="example" src={`${host}${item.preview_img}`} />}
+            cover={
+              <img
+                style={{ height: "150px" }}
+                alt="example"
+                src={`${host}${item.preview_img}`}
+              />
+            }
           >
             <Meta
               title={item.name}
