@@ -67,14 +67,13 @@ const App = props => {
             <Route path='/password-reset-confirm' element={<ResetPwConfirm />} />
         </Routes>
         }
-        <Footer style={{ textAlign: 'center' }}>
-            <div style={{display:'flex', justifyContent:'space-around'}}>
+        <Footer style={{ textAlign: 'center', backgroundColor:'#F7D7B4' }}>
                 <p>Copyright © 2022 ❤️ Foxsourcecode.com — All Rights Reserved</p>
-                <a><FacebookFilled /></a>
-                <a><InstagramFilled /></a>
-                <a><TwitterCircleFilled /></a>
-                <a><MailFilled /></a>
-            </div></Footer>
+                <a className='footer-link'><FacebookFilled /></a>
+                <a className='footer-link'><InstagramFilled /></a>
+                <a className='footer-link'><TwitterCircleFilled /></a>
+                <a className='footer-link'><MailFilled /></a>
+        </Footer>
         {/* <RegisterForm />
         <Dashboard /> */}
     </Layout>

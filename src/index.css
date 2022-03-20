@@ -20,3 +20,13 @@
     padding: 1.5rem 0 0 0.5rem;
   }
 }
+
+.footer-link {
+  font-size: 1.5em !important;
+  color: #fd6425 !important;
+  margin: 0 1rem !important;
+}
+
+.footer-link:hover {
+  color: #fd9c74 !important;
+}
