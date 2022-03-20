@@ -17,11 +17,36 @@ const Catalog = (props) => {
         .then(res => setCatigories(res.data))
         axiosFetchInstance('/items/all/')
         .then(res => {
-            query.search ? 
-            setItems(res.data.filter(i => i.name.toLowerCase().includes(query.search.toLowerCase())))
-            :
-            setItems(res.data)}
-            )
+            if(query.search) setItems(res.data.filter(i => i.name.toLowerCase().includes(query.search.toLowerCase())))
+            else if (query.filter){
+                switch(query.filter){
+                    case 'new_items':
+                        setItems(res.data)
+                        break;
+                    case 'most_selled':
+                        setItems(res.data.sort((a, b)=>{
+                            if (a.downloads.length > b.downloads.length) return -1
+                            if (a.downloads.length < b.downloads.length) return 1
+                            return 0
+                        }))
+                        break;
+                    case 'most_liked':
+                        setItems(res.data.sort((a, b)=>{
+                            if (a.likes.length > b.likes.length) return -1
+                            if (a.likes.length < b.likes.length) return 1
+                            return 0
+                        }))
+                    case 'hot_deals':
+                        setItems(res.data.filter(i => i.discount_price))
+                        break;
+                    default:
+                        setItems(res.data);
+                        break;
+                }
+            }   
+            else setItems(res.data)
+        
+        })
     }, [])
     
   return (

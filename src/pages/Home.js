@@ -12,6 +12,10 @@ const Home = () => {
         window.location.href = `/catalog?search=${value}`
     }
 
+    const handleFilter = value => {
+        window.location.href = `/catalog?filter=${value}`
+    }
+
     React.useEffect(()=> {
         axiosFetchInstance.get('/')
         .then(res => setItems(res.data))
@@ -34,30 +38,60 @@ const Home = () => {
             </Col>
         </Row> */}
         <Row gutter={16} style={{marginTop:'2rem'}}>
-        <Col span={24}><Title level={4}>New Items</Title></Col>
-            {Items.new_items.map(item => {
+        <Col span={24}>
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <Title level={4}>Hot deals</Title>
+                <Button onClick={()=> handleFilter('hot_deals')} primary>See All</Button>
+            </div>
+        </Col>
+            {Items.hot_deals.map(item => {
                 return (
-                    <Col key={`new${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                    <Col key={`new${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} />
                     </Col>
                 )
             })}
         </Row>
         <Row gutter={16} style={{marginTop:'2rem'}}>
-            <Col span={24}><Title level={4}>Top Selling</Title></Col>
+        <Col span={24}>
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <Title level={4}>New Items</Title>
+                <Button onClick={()=> handleFilter('new_items')} primary>See All</Button>
+            </div>
+        </Col>
+            {Items.new_items.map(item => {
+                return (
+                    <Col key={`new${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
+                        <ItemCard item={item} />
+                    </Col>
+                )
+            })}
+        </Row>
+        <Row gutter={16} style={{marginTop:'2rem'}}>
+        <Col span={24}>
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <Title level={4}>Top Selling</Title>
+                <Button onClick={()=> handleFilter('most_selled')} primary>See All</Button>
+            </div>
+        </Col>
             {Items.most_selled.map(item => {
                 return (
-                    <Col key={`top${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                    <Col key={`top${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} id={item.id} />
                     </Col>
                 )
             })}
         </Row>
         <Row gutter={16} style={{marginTop:'2rem'}}>
-            <Col span={24}><Title level={4}>Most Liked</Title></Col>
+        <Col span={24}>
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+                <Title level={4}>Most Liked</Title>
+                <Button onClick={()=> handleFilter('most_liked')} primary>See All</Button>
+            </div>
+        </Col>
             {Items.most_liked.map(item => {
                 return (
-                    <Col key={`top${item.id}`} xs={24} sm={12} md={6} style={{marginBottom:'1rem'}}>
+                    <Col key={`top${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} id={item.id} />
                     </Col>
                 )

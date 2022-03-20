@@ -48,7 +48,7 @@ const App = props => {
         <Header style={{backgroundColor:'#fff'}}>
             <div style={{float:'left', width:'20%', borderBottom:'1px solid #f0f0f0', height:'inherit', paddingRight:'1rem'}} className='logo'>
                 <Link to='/'>
-                    <img style={{width:'100%'}} src={require('./images/foxcodes-2.png')} />
+                    <img style={{width:'100%', maxHeight:'100%'}} src={require('./images/foxcodes-2.png')} />
                 </Link>
             </div>
             <Navbar />

@@ -11,7 +11,6 @@ const ItemCard = ({ item }) => {
       <Link to={`/item?id=${item.id}`}>
         {host && (
           <Card
-            style={{ height: "300px" }}
             hoverable
             cover={
               <img
@@ -31,10 +30,21 @@ const ItemCard = ({ item }) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <p>{item.short_describtion}</p>
-                  <Tag style={{ height: "fit-content" }} color="orange">
-                    {item.price}
-                  </Tag>
+                  <p>Curent Price</p>
+                  {item.discount_price && (
+                    <>
+                      <Tag style={{ height: "fit-content" }} color="success">
+                        ${item.discount_price}
+                      </Tag>
+                      <Tag style={{ height: "fit-content" }} color="orange">
+                        old ${item.price}
+                      </Tag>
+                      :
+                      <Tag style={{ height: "fit-content" }} color="orange">
+                        ${item.price}
+                      </Tag>
+                    </>
+                  )}
                 </div>
               }
             />

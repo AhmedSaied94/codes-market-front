@@ -46,7 +46,11 @@ const ItemPurchase = () => {
                 <Option value="Multiple License">Multiple License</Option>
               </Select>
             </Form.Item>
-            <Title level={2}>{`$ ${item.price}`}</Title>
+            <Title level={2}>
+              {item.discount_price
+                ? `$ ${item.discount_price}`
+                : `$ ${item.price}`}
+            </Title>
           </div>
 
           <p>We offer support</p>
@@ -66,7 +70,9 @@ const ItemPurchase = () => {
                 purchase_units: [
                   {
                     amount: {
-                      value: item.price,
+                      value: item.discount_price
+                        ? item.discount_price
+                        : item.price,
                     },
                     custom_id: `${item.id}&${authedUser.id}`,
                   },
