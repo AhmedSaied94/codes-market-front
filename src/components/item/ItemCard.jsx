@@ -30,7 +30,6 @@ const ItemCard = ({ item }) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <p>Curent Price</p>
                   {item.discount_price ? (
                     <>
                       <Tag style={{ height: "fit-content" }} color="success">
