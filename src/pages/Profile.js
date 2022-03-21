@@ -15,10 +15,9 @@ const Profile = () => {
     const query = QueryString.parse(location.search)
     const [user, setUser] = React.useState()
     React.useEffect(()=> {
-        authedUser.id &&
         axiosFetchInstance.get(`/account/user-details/${query.id}/`)
         .then(res => {
-            res.data === authedUser ? window.location.href = '/dashboard'
+            authedUser.id && res.data.id === authedUser.id ? window.location.href = '/dashboard'
             : setUser(res.data)
         })
         .catch(error => {
