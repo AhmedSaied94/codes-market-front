@@ -25,8 +25,8 @@ const Catalog = (props) => {
                         break;
                     case 'most_selled':
                         setItems(res.data.sort((a, b)=>{
-                            if (a.downloads.length > b.downloads.length) return -1
-                            if (a.downloads.length < b.downloads.length) return 1
+                            if (a.downloads > b.downloads) return -1
+                            if (a.downloads < b.downloads) return 1
                             return 0
                         }))
                         break;
