@@ -17,7 +17,8 @@ const Support = (props) => {
       content: values.content,
     });
     if (window.location.href.includes("item")) {
-      axiosFetchInstance(`/account/support/${item.id}/`, data)
+      axiosFetchInstance
+        .post(`/account/support/${item.id}/`, data)
         .then((res) => {
           message.success(res.data.success, 5);
         })

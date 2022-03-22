@@ -46,7 +46,7 @@ const Home = () => {
         </Col>
             {Items.hot_deals.map(item => {
                 return (
-                    <Col key={`new${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
+                    <Col key={`new${item.id}`} xs={12} sm={6} lg={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} />
                     </Col>
                 )
@@ -61,7 +61,7 @@ const Home = () => {
         </Col>
             {Items.new_items.map(item => {
                 return (
-                    <Col key={`new${item.id}`} xs={12} sm={6} md={4} style={{marginBottom:'1rem'}}>
+                    <Col key={`new${item.id}`} xs={12} sm={6} lg={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} />
                     </Col>
                 )
@@ -76,7 +76,7 @@ const Home = () => {
         </Col>
             {Items.most_selled.map(item => {
                 return (
-                    <Col key={`top${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
+                    <Col key={`top${item.id}`} xs={12} sm={6} lg={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} id={item.id} />
                     </Col>
                 )
@@ -91,7 +91,7 @@ const Home = () => {
         </Col>
             {Items.most_liked.map(item => {
                 return (
-                    <Col key={`top${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
+                    <Col key={`top${item.id}`} xs={12} sm={6} lg={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} id={item.id} />
                     </Col>
                 )
