@@ -9,7 +9,7 @@ const { TextArea } = Input;
 
 const ItemReviews = (props) => {
   const [submitting, setSubmitting] = React.useState(false);
-  const { form } = Form.useForm();
+  const [form] = Form.useForm();
   const { item } = React.useContext(ItemContext);
   const { authedUser } = React.useContext(UserContext);
   const [reviews, setReviews] = React.useState([]);

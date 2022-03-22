@@ -9,7 +9,7 @@ const { TextArea } = Input;
 
 const ItemComments = () => {
   const [submitting, setSubmitting] = React.useState(false);
-  const { form } = Form.useForm();
+  const [form] = Form.useForm();
   const { item } = React.useContext(ItemContext);
   const [comments, setComments] = React.useState([]);
 

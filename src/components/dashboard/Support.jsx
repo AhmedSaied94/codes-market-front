@@ -21,6 +21,7 @@ const Support = (props) => {
         .post(`/account/support/${item.id}/`, data)
         .then((res) => {
           message.success(res.data.success, 5);
+          form.resetFields();
         })
         .catch((error) => {
           handleUnauthorized(error);
@@ -30,6 +31,7 @@ const Support = (props) => {
         .post("/account/support/", data)
         .then((res) => {
           message.success(res.data.success, 5);
+          form.resetFields();
         })
         .catch((error) => {
           handleUnauthorized(error);
