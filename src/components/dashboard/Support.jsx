@@ -8,7 +8,6 @@ const { TextArea } = Input;
 const Support = (props) => {
   const [form] = Form.useForm();
   const { authedUser } = React.useContext(UserContext);
-  const { item } = React.useContext(ItemContext);
 
   const handleSupport = (values) => {
     const data = JSON.stringify({
@@ -18,7 +17,7 @@ const Support = (props) => {
     });
     if (window.location.href.includes("item")) {
       axiosFetchInstance
-        .post(`/account/support/${item.id}/`, data)
+        .post(`/account/support/${props.item.id}/`, data)
         .then((res) => {
           message.success(res.data.success, 5);
           form.resetFields();

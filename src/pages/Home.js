@@ -37,7 +37,7 @@ const Home = () => {
             <Col span={24}>
             </Col>
         </Row> */}
-        <Row gutter={16} style={{marginTop:'2rem'}}>
+        <Row gutter={16} style={{marginTop:'1rem'}}>
         <Col span={24}>
             <div style={{display:'flex', justifyContent:'space-between'}}>
                 <Title level={4}>Hot deals</Title>
