@@ -61,7 +61,7 @@ const Home = () => {
         </Col>
             {Items.new_items.map(item => {
                 return (
-                    <Col key={`new${item.id}`} xs={24} sm={12} md={4} style={{marginBottom:'1rem'}}>
+                    <Col key={`new${item.id}`} xs={12} sm={6} md={4} style={{marginBottom:'1rem'}}>
                         <ItemCard item={item} />
                     </Col>
                 )

@@ -104,7 +104,7 @@ const ItemPage = () => {
                     {authedUser.payments && authedUser.payments.find(p => p.item === item.name) &&
                         <TabPane tab="Download" key="download">
                             <div>
-                                <Support item={item.id} />
+                                <Support item={item} />
                                 <Button block onClick={handleDownload} type='primary'>Download Code</Button>
                                 
                             </div>

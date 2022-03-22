@@ -2,11 +2,13 @@ import * as React from "react";
 import { Form, Input, Button, message } from "antd";
 import { UserContext } from "../../App";
 import { axiosFetchInstance, handleUnauthorized } from "../../Axios";
+import { ItemContext } from "../../pages/ItemPage";
 const { TextArea } = Input;
 
 const Support = (props) => {
   const [form] = Form.useForm();
   const { authedUser } = React.useContext(UserContext);
+  const { item } = React.useContext(ItemContext);
 
   const handleSupport = (values) => {
     const data = JSON.stringify({
@@ -14,8 +16,8 @@ const Support = (props) => {
       email: values.email,
       content: values.content,
     });
-    if (props.item) {
-      axiosFetchInstance(`/account/support/${props.item}/`, data)
+    if (window.location.href.includes("item")) {
+      axiosFetchInstance(`/account/support/${item.id}/`, data)
         .then((res) => {
           message.success(res.data.success, 5);
         })
