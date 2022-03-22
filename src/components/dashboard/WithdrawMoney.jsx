@@ -29,7 +29,7 @@ const WithdrawMoney = (props) => {
   }, [authedUser]);
 
   const handleWithdraw = (values) => {
-    console.log(values);
+    // console.log(values);
     if (values.amount > authedUser.credit || values.amount < 30) {
       message.error("Your credit is not enough for this withdraw");
       return;

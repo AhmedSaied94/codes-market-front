@@ -29,7 +29,7 @@ const ItemPurchase = () => {
     setFtypes([...ft]);
   }, [item]);
   const licenseChange = (value) => {
-    console.log(value);
+    // console.log(value);
   };
   return (
     <div>
@@ -43,7 +43,6 @@ const ItemPurchase = () => {
             <Form.Item required>
               <Select placeholder="License..." onChange={licenseChange}>
                 <Option value="Single License">Single License</Option>
-                <Option value="Multiple License">Multiple License</Option>
               </Select>
             </Form.Item>
             <Title level={2}>

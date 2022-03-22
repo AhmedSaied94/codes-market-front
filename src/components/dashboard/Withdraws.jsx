@@ -65,21 +65,6 @@ const Withdraws = (props) => {
     },
   ];
 
-  // const data = []
-  // for (let index = 1; index < 6; index++) {
-  //   data.push(        {
-  //     key: index,
-  //     ID: index,
-  //     Date: '2022-02-20',
-  //     Details: 'New York No. 1 Lake Park',
-  //     Amount:'$25',
-  //     Status: 'success',
-  //     amountstatus:{
-  //       amount:'$25',
-  //       status:'success'
-  //     }
-  //   })
-  // }
   const withdraws = authedUser
     ? authedUser.withdraws.map((withdraw) => {
         return {

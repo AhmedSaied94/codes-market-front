@@ -28,58 +28,9 @@ const Payments = (props) => {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
-      // responsive:['xs']
     },
-    // {
-    //   title: 'Status',
-    //   key: 'status',
-    //   dataIndex: 'status',
-    //   render: Status => {
-
-    //         let color = Status === 'success' ? 'green' : 'volcano'
-    //         return (
-    //           <Tag color={color} key={Status}>
-    //             {Status.toUpperCase()}
-    //           </Tag>
-    //         )
-    //   },
-    //   responsive:['sm']
-    // },
-    // {
-    //   title:'A&S',
-    //   dataIndex:'amountstatus',
-    //   key:'amountstatus',
-    //   render: (record) => {
-    //     let color = record.status === 'success' ? 'green' : 'volcano'
-    //     return (
-    //       <React.Fragment>
-    //         {record.amount}
-    //         <br />
-    //         <Tag color={color} key={record.status}>
-    //           {record.status.toUpperCase()}
-    //         </Tag>
-    //       </React.Fragment>
-    //     )
-    //   },
-    //   responsive:['xs']
-    // },
   ];
 
-  // const data = []
-  // for (let index = 1; index < 6; index++) {
-  //   data.push(        {
-  //     key: index,
-  //     ID: index,
-  //     Date: '2022-02-20',
-  //     Details: 'New York No. 1 Lake Park',
-  //     Amount:'$25',
-  //     Status: 'success',
-  //     amountstatus:{
-  //       amount:'$25',
-  //       status:'success'
-  //     }
-  //   })
-  // }
   const payments = authedUser
     ? authedUser.payments.map((trans) => {
         return {

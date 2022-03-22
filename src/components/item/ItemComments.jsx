@@ -31,8 +31,8 @@ const ItemComments = () => {
       .catch((error) => {
         !error.response.status || error.response.status === 401
           ? handleUnauthorized(error)
-          : console.log(error.response);
-        message.error(error.response.data.error);
+          : // : console.log(error.response);
+            message.error(error.response.data.error);
       });
   };
   return (

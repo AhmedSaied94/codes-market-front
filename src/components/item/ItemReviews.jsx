@@ -33,8 +33,8 @@ const ItemReviews = (props) => {
       .catch((error) => {
         error.response.status === 401 || !error.response.status
           ? handleUnauthorized(error)
-          : console.log(error.response);
-        message.error(error.response.data.error);
+          : // : console.log(error.response);
+            message.error(error.response.data.error);
       });
   };
   return (

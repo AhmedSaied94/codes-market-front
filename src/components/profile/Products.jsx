@@ -8,9 +8,9 @@ const Products = ({ user }) => {
         return (
           <Col
             key={item.id}
-            xs={24}
-            sm={12}
-            md={6}
+            xs={12}
+            sm={6}
+            lg={4}
             style={{ marginBottom: "1rem" }}
           >
             <ItemCard item={item} />

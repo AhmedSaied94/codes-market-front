@@ -28,7 +28,7 @@ const ResetPwConfirm = () => {
                 error.response.status === 401 &&
                 message.error('link has been expired request new one')
                 setTimeout(()=> window.location.href = '/', 2000)
-                console.log(error)
+                // console.log(error)
             })
         }else {
             message.error('this link has been expired')

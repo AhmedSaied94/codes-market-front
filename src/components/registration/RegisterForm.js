@@ -50,16 +50,16 @@ function RegisterForm() {
     })
     axiosInstance.post('/account/signup/', user)
     .then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       if (res.data.access_token) {
         localStorage.setItem('foxCodes_accessToken', res.data.access_token)
         localStorage.setItem('foxCodes_refreshToken', res.data.refresh_token)
         window.location.href = '/'
       }
-      else {
-        // window.location.href = '/login'
-        console.log(res.data)
-      }
+      // else {
+      //   // window.location.href = '/login'
+      //   console.log(res.data)
+      // }
     })
     .catch(error => {
       setErrors([])

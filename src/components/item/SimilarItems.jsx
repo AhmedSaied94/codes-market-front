@@ -11,7 +11,7 @@ const SimilarItems = (props) => {
     axiosFetchInstance
       .get(`/items/sub_catigory=${item.sub_catigory}/`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setSimilars(res.data.slice(0, 13));
       })
       .catch((error) => {

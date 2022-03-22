@@ -19,7 +19,7 @@ const Tabs = (props) => {
   const loading = authedUser ? false : true;
 
   const handleClick = (e) => {
-    console.log("click ", e);
+    // console.log("click ", e);
   };
   return (
     <div className="aside">

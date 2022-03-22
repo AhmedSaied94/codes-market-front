@@ -95,7 +95,7 @@ const MyAccount = (props) => {
         message.success(res.data.success);
       })
       .catch((error) => {
-        console.log(error.response);
+        // console.log(error.response);
         if (error.response.status === 401) handleUnauthorized(error);
         else {
           for (const key in error.response.data) {

@@ -55,7 +55,7 @@ function LoginForm() {
       client_secret,
       grant_type: "password"
     })
-    console.log(data)
+    // console.log(data)
     axiosInstance.post('/account/auth/token/', data)
     .then(res => {
       localStorage.setItem('foxCodes_accessToken', res.data.access_token)
@@ -63,7 +63,7 @@ function LoginForm() {
       window.location.href = '/'
     })
     .catch(error => {
-      console.log(error.response)
+      // console.log(error.response)
       error.response.data.error_description === "Invalid credentials given." &&
       message.error('invalid email or password', 8)
     })

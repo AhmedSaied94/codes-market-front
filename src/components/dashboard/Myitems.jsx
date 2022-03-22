@@ -228,22 +228,6 @@ const Myitems = (props) => {
       responsive: ["xs"],
     },
   ];
-  // const data = []
-  // for (let index = 1; index < 6; index++) {
-  //     data.push({
-  //         key: index,
-  //         logo: 'logo'+index,
-  //         name: 'item' + index,
-  //         price: '$25',
-  //         status: 'approved',
-  //         sales: 5,
-  //         action: index,
-  //         actionstatus:{
-  //           amount:index,
-  //           status:'success'
-  //         }
-  //     })
-  // }
 
   return (
     <div>
