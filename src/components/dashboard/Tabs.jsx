@@ -88,6 +88,9 @@ const Tabs = (props) => {
         <Menu.Item className="tab-item" key="wishlist" icon={<HeartOutlined />}>
           <Link to="wishlist">Wishlist</Link>
         </Menu.Item>
+        <Menu.Item className="tab-item" key="wishlist" icon={<HeartOutlined />}>
+          <Link to="support">Support</Link>
+        </Menu.Item>
       </Menu>
     </div>
   );

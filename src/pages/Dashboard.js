@@ -9,6 +9,7 @@ import Withdraws from '../components/dashboard/Withdraws.jsx'
 import WithdrawMoney from '../components/dashboard/WithdrawMoney';
 import Wishlist from '../components/dashboard/Wishlist';
 import MyAccount from '../components/dashboard/MyAccount';
+import Support from '../components/dashboard/Support';
 import { Route, Routes, Link } from 'react-router-dom';
 import { UserContext } from '../App';
 const { Title } = Typography;
@@ -71,6 +72,7 @@ const Dashboard = (props) => {
                                 <Route path='/withdraws' element={<Withdraws />} />
                                 <Route path='/withdraw-money' element={<WithdrawMoney />} />
                                 <Route path='/wishlist' element={<Wishlist />} />
+                                <Route path='/support' element={<Support />} />
                             </Routes>
                         </Content>
                 </Layout>

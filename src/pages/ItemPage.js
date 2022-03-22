@@ -5,6 +5,7 @@ import ItemReviews from '../components/item/ItemReviews'
 import ItemComments from '../components/item/ItemComments'
 import ItemPurchase from '../components/item/ItemPurchase'
 import SimilarItems from '../components/item/SimilarItems'
+import Support from '../components/dashboard/Support'
 import { Layout, Row, Col, Tabs, Typography, Button } from 'antd'
 import { axiosFetchInstance, handleUnauthorized } from '../Axios'
 import { Link } from 'react-router-dom'
@@ -103,8 +104,8 @@ const ItemPage = () => {
                     {authedUser.payments && authedUser.payments.find(p => p.item === item.name) &&
                         <TabPane tab="Download" key="download">
                             <div>
-                                
-                                    <Button onClick={handleDownload} type='primary'>Download Code</Button>
+                                <Support item={item.id} />
+                                <Button block onClick={handleDownload} type='primary'>Download Code</Button>
                                 
                             </div>
                         </TabPane>

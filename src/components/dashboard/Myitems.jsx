@@ -191,17 +191,35 @@ const Myitems = (props) => {
               style={{
                 display: "flex",
                 justifyContent: "space-around",
-                marginTop: "0.25rem",
+                flexWrap: "wrap",
               }}
             >
-              <Button type="primary" shape="circle">
-                A
-              </Button>
-              <Button type="primary" danger shape="circle">
-                B
-              </Button>
-              <Button type="dashed" shape="circle">
-                C
+              <Link to={`/item?id=${record.action}`}>
+                <Button
+                  style={{ margin: "0.25rem 0" }}
+                  type="primary"
+                  shape="rounded"
+                >
+                  View
+                </Button>
+              </Link>
+              <Link to={`/dashboard/myitems/upload?item=${record.action}`}>
+                <Button
+                  style={{ margin: "0.25rem 0" }}
+                  type="primary"
+                  danger
+                  shape="rounded"
+                >
+                  Edit
+                </Button>
+              </Link>
+              <Button
+                style={{ margin: "0.25rem 0" }}
+                type="dashed"
+                onClick={() => deleteItem(record.action)}
+                shape="rounded"
+              >
+                Delete
               </Button>
             </div>
           </React.Fragment>
