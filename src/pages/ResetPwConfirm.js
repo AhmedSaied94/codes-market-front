@@ -11,7 +11,7 @@ const ResetPwConfirm = () => {
     const query = QueryString.parse(location.search)
 
     const handleFinish = values => {
-        if (query.token_valid){
+        if (query.token_valid === 'true'){
             const uid64 = query.uid64
             const token = query.token
             const data = JSON.stringify({
