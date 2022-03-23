@@ -11,7 +11,10 @@ const ResetPwConfirm = () => {
     const query = QueryString.parse(location.search)
 
     const handleFinish = values => {
-        if (query.token_valid === 'true'){
+        if (query.token_valid === 'false'){
+          message.error('this link has been expired')
+          setTimeout(()=> window.location.href ='/', 2000)
+        }else{
             const uid64 = query.uid64
             const token = query.token
             const data = JSON.stringify({
@@ -30,10 +33,10 @@ const ResetPwConfirm = () => {
                 setTimeout(()=> window.location.href = '/', 2000)
                 // console.log(error)
             })
-        }else {
-            message.error('this link has been expired')
-            setTimeout(()=> window.location.href ='/', 2000)
         }
+        
+
+        
 
     }
   return (
