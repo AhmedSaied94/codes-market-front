@@ -24,12 +24,15 @@ const ResetPwConfirm = () => {
             })
             axiosInstance.put('/account/password-reset-confirm/', data)
             .then(res => {
-              console.log(res.data)
-                res.data.success?
-                message.success(res.data.success):
-                message.error(res.data)
-
+                if (res.data.success){
+                message.success(res.data.success)
                 setTimeout(()=> window.location.href = '/login', 1000)   
+                }else{
+                  for (const key in res.data) {
+                    message.error(`${key}: ${res.data[key][0]}`)
+                    
+                  }
+                }
             })
             .catch(error => {
                 error.response.status === 401 &&
