@@ -114,7 +114,9 @@ const ItemPurchase = () => {
             {item.relased_date.substring(0, 10)}
           </Descriptions.Item>
           <Descriptions.Item span={3} label="Last Update">
-            {item.last_update.substring(0, 10)}
+            {item.last_update
+              ? item.last_update.substring(0, 10)
+              : item.relased_date.substring(0, 10)}
           </Descriptions.Item>
           <Descriptions.Item span={3} label="Files Included">
             {item.file_types.map((f) => f.name).join(", ")}
