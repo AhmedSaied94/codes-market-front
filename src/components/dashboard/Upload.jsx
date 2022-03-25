@@ -26,6 +26,7 @@ const { Title } = Typography;
 
 const UploadItem = (props) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
   const { authedUser } = React.useContext(UserContext);
   const [initialValues, setInitialValues] = React.useState(false);
   const [current, setCurrent] = React.useState(0);
@@ -54,7 +55,7 @@ const UploadItem = (props) => {
   const itemTestIos = React.useRef();
   const itemYTurl = React.useRef();
   const itemPrice = React.useRef();
-  const itemSize = React.useRef();
+  // const itemSize = React.useRef();
   const fileUrl = React.useRef();
   const location = useLocation();
   const query = QueryString.parse(location.search);
@@ -85,7 +86,7 @@ const UploadItem = (props) => {
             test_apk: item.test_apk,
             test_ios: item.test_ios,
             youtube_url: item.youtube_url,
-            size: item.size,
+            // size: item.size,
             features: item.featurs,
             price: item.price,
             file_url: item.file_url,
@@ -101,6 +102,7 @@ const UploadItem = (props) => {
   }, []);
 
   const addItem = () => {
+    setLoading(true);
     let data;
     const main = new FormData();
     try {
@@ -116,11 +118,16 @@ const UploadItem = (props) => {
             fileList[index].name
           );
         }
+      } else {
+        message.error("please upload screenshots", 5);
+        setLoading(false);
+        return;
       }
     } catch {
       message.error("please upload all requier data", 5);
       main = new FormData();
       setCurrent(0);
+      setLoading(false);
       return;
     }
     const nf = [];
@@ -141,7 +148,7 @@ const UploadItem = (props) => {
       test_ios: productDetails.test_ios,
       youtube_url: productDetails.youtube_url,
       // size: Math.ceil(zip_file.size / 1024 / 1024),
-      size: itemSize.current.value,
+      // size: itemSize.current.value,
       price: itemPrice.current.value,
       file_url: fileUrl.current.props.value,
       file_types,
@@ -163,15 +170,26 @@ const UploadItem = (props) => {
               );
             })
             .catch((error) => {
-              handleUnauthorized(error);
+              if (!error.response || error.response.status === 401) {
+                handleUnauthorized(error);
+              } else {
+                for (const key in error.response.data) {
+                  message.error(`${key}: ${error.response.data[key][0]}`);
+                }
+                setCurrent(0);
+                setLoading(false);
+              }
             });
         })
         .catch((error) => {
-          error.response.status === 401 || !error.response.status
-            ? handleUnauthorized(error)
-            : (main = new FormData());
-          message.error("please fill in all requierd fields", 5);
-          setCurrent(0);
+          if (error.response.status === 401 || !error.response.status) {
+            handleUnauthorized(error);
+          } else {
+            main = new FormData();
+            message.error("please fill in all requierd fields", 5);
+            setLoading(false);
+            setCurrent(0);
+          }
         });
     } else {
       axiosFetchInstance
@@ -188,16 +206,25 @@ const UploadItem = (props) => {
               );
             })
             .catch((error) => {
-              handleUnauthorized(error);
+              if (!error.response || error.response.status === 401) {
+                handleUnauthorized(error);
+              } else {
+                for (const key in error.response.data) {
+                  message.error(`${key}: ${error.response.data[key][0]}`);
+                }
+              }
             });
         })
         .catch((error) => {
-          error.response.status === 401 || !error.response.status
-            ? handleUnauthorized(error)
-            : console.log(error.response);
-          main = new FormData();
-          message.error("please fill in all requierd fields", 5);
-          setCurrent(0);
+          if (error.response.status === 401 || !error.response.status) {
+            handleUnauthorized(error);
+          } else {
+            console.log(error.response);
+            main = new FormData();
+            message.error("please fill in all requierd fields", 5);
+            setCurrent(0);
+            setLoading(false);
+          }
         });
     }
   };
@@ -528,7 +555,7 @@ const UploadItem = (props) => {
                 addonAfter=".com"
               />
             </Form.Item>
-            <Form.Item name="size" label="File size: (size of .ZIP file in MB)">
+            {/* <Form.Item name="size" label="File size: (size of .ZIP file in MB)">
               <InputNumber
                 required
                 style={{ width: "100%" }}
@@ -540,7 +567,7 @@ const UploadItem = (props) => {
                 //     : "File Size"
                 // }
               />
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item name="price" label="Price: (Single Licence)">
               <InputNumber
@@ -582,7 +609,7 @@ const UploadItem = (props) => {
               </Button>
             )}
             {current === steps.length - 1 && (
-              <Button type="primary" onClick={addItem}>
+              <Button type="primary" loading={loading} onClick={addItem}>
                 Done
               </Button>
             )}
