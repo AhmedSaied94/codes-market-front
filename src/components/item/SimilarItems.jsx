@@ -31,6 +31,7 @@ const SimilarItems = (props) => {
               sm={6}
               lg={4}
               style={{ marginBottom: "1rem" }}
+              onClick={() => (window.location.href = `/item?id=${item.id}`)}
             >
               <ItemCard item={item} />
             </Col>
