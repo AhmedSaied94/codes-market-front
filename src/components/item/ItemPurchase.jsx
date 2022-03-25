@@ -114,7 +114,7 @@ const ItemPurchase = () => {
             {item.relased_date.substring(0, 10)}
           </Descriptions.Item>
           <Descriptions.Item span={3} label="Last Update">
-            {item.Last_update}
+            {item.last_update.substring(0, 10)}
           </Descriptions.Item>
           <Descriptions.Item span={3} label="Files Included">
             {item.file_types.map((f) => f.name).join(", ")}
@@ -130,9 +130,6 @@ const ItemPurchase = () => {
                 </Descriptions.Item>
               );
             })}
-          <Descriptions.Item span={3} label="File Size">
-            {item.size} MB
-          </Descriptions.Item>
         </Descriptions>
       </div>
       <div className="site-card-border-less-wrapper">
